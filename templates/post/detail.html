@@ -1,24 +1,21 @@
 {% extends 'post/base.html' %}
-
+{% load mptt_tags %}
 {% block title %}
-    <title></title>
+    <title>{{ post.title }}</title>
 {% endblock %}
-
 {% block main %}
     <div class="top-gap-big">
         <article class="blog-post">
-            <h1 class="top-gap-0">Django 博客文章自动生成摘要的两种方法</h1>
+            <h1 class="top-gap-0">{{ post.title }}</h1>
             <ul class="list-inline dot-divider post-meta">
                 <li class="list-inline-item text-small text-muted">
-                2&nbsp;年，3&nbsp;月前
-                </li>
-                <li class="list-inline-item text-small text-muted">1020 字
+                    {{ post.pub_time }}
                 </li>
                 <li class="list-inline-item text-small text-muted">
-                    4847 阅读
+                    {{ post.views }} 浏览
                 </li>
                 <li class="list-inline-item text-small text-muted">
-                    9 评论
+                    {{ post.comments.count }} 评论
                 </li>
             </ul>
             <div class="top-gap-big post-body">
@@ -47,9 +44,7 @@
     </div>
     <br>
     <section class="comment-area top-gap-big" id="comment-area">
-
-
-    <div class="flex-center top-gap login-panel p-7">
+        <div class="flex-center top-gap login-panel p-7">
       <div>
         <div class="text-muted text-center login-header"><span>登录后回复</span></div>
         <div class="flex-center text-center social-icons mt-3">
@@ -66,82 +61,42 @@
         </div>
       </div>
     </div>
-    <h5>9 条评论 / 5 人参与</h5>
-    <script>
-    const jscontext = {
-        contentType: 'blog.post',
-        objectPk: '28',
-        token: '',
-        weiboLoginUrl: '/accounts/weibo/login/',
-        githubLoginUrl: '/accounts/github/login/'
-    }
-    </script>
-    <div class="flex-center comment-form">
-        <div class="unit-1">
-            <div data-v-7a63e4b3="" class="v-note-wrapper markdown-body">
-                <div data-v-7a63e4b3="" class="v-note-op">
-                    <div data-v-548e2160="" data-v-7a63e4b3="" class="v-left-item">
-                        <button data-v-548e2160="" type="button" aria-hidden="true" title="粗体 (ctrl+b)" class="op-icon fa fa-mavon-bold"></button>
-                        <button data-v-548e2160="" type="button" aria-hidden="true" title="斜体 (ctrl+i)" class="op-icon fa fa-mavon-italic"></button> <!---->
-                        <span data-v-548e2160="" class="op-icon-divider"></span> <!---->
-                        <button data-v-548e2160="" type="button" title="中划线 (ctrl+shift+d)" aria-hidden="true" class="op-icon fa fa-mavon-strikethrough"></button> <!---->
-                        <!----> <!----> <!----> <!----> <!----> <span data-v-548e2160="" class="op-icon-divider"></span>
-                        <button data-v-548e2160="" type="button" aria-hidden="true" title="段落引用 (ctrl+q)" class="op-icon fa fa-mavon-quote-left"></button>
-                        <button data-v-548e2160="" type="button" aria-hidden="true" title="有序列表 (ctrl+o)" class="op-icon fa fa-mavon-list-ol"></button>
-                        <button data-v-548e2160="" type="button" aria-hidden="true" title="无序列表 (ctrl+alt+u)" class="op-icon fa fa-mavon-list-ul"></button>
-                        <span data-v-548e2160="" class="op-icon-divider"></span>
-                        <button data-v-548e2160="" type="button" aria-hidden="true" title="链接 (ctrl+l)" class="op-icon fa fa-mavon-link"></button> <!---->
-                        <button data-v-548e2160="" type="button" aria-hidden="true" title="代码块 (ctrl+alt+c)" class="op-icon fa fa-mavon-code"></button>
-                        <!----> <span data-v-548e2160="" class="op-icon-divider"></span> <!----> <!----> <!----> <!---->  <!---->
-                    </div>
-                    <div data-v-7a63e4b3="" class="v-right-item"> <!----> <!---->
-                        <button type="button" aria-hidden="true" title="编辑 (F9)" class="op-icon fa fa-mavon-eye-slash selected" style="display: none;"></button>
-                        <button type="button" aria-hidden="true" title="预览 (F9)" class="op-icon fa fa-mavon-eye"></button> <!----> <!----> <!----> <!---->
-                        <!----> <!----> <!----> <!---->
-                    </div>
-                </div>
-                <div data-v-7a63e4b3="" class="v-note-panel">
-                    <div data-v-7a63e4b3="" class="v-note-edit divarea-wrapper scroll-style single-edit">
-                        <div data-v-7a63e4b3="" class="content-input-wrapper">
-                            <div data-v-7a63e4b3="" class="auto-textarea-wrapper content-input" style="font-size: 15px; line-height: 1.5; height: 100%;">
-                                <pre class="auto-textarea-block" style="font-size: 15px; line-height: 1.5; min-height: 100%;"><br> </pre>
-                                <textarea spellcheck="false" placeholder="评论..." class="auto-textarea-input no-border no-resize" style="font-size: 15px; line-height: 1.5;"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div data-v-7a63e4b3="" class="v-note-show" style="display: none;">
-                        <div data-v-7a63e4b3="" class="v-show-content scroll-style"></div>
-                        <div data-v-7a63e4b3="" class="v-show-content-html scroll-style" style="display: none;">
-
-                        </div>
-                    </div>
-                    <div data-v-7a63e4b3="" class="v-note-navigation-wrapper" style="display: none;">
-                        <div data-v-7a63e4b3="" class="v-note-navigation-title">
-                            导航目录
-                            <i data-v-7a63e4b3="" aria-hidden="true" class="fa fa-mavon-times v-note-navigation-close"></i>
-                        </div> <div data-v-7a63e4b3="" class="v-note-navigation-content scroll-style"></div>
-                    </div>
-                </div>  <!---->
-                <div data-v-7a63e4b3="" class="v-note-read-model scroll-style">
-                    <div data-v-7a63e4b3="" class="v-note-read-content"></div>
-                </div>
+        <h5>9 条评论 / 5 人参与</h5>
+    </section>
+    {% recursetree comments %}
+        {% with comment=node %}
+            <div class="flex-center comment">
+            <div class="unit-0">
+                <img alt="" src="https://avatars7.githubusercontent.com/u/21219371?v=4" class="comment-mugshot">
             </div>
-            <button class="btn btn-default float-right"><i aria-hidden="true" class="fa fa-paper-plane"></i> 发布</button>
+            <div class="unit root-comment">
+                <header class="comment-user">
+                    <span class="text-small text-muted comment-user-name">{{ comment.user }}</span>
+                    {% if comment.reply_to %}
+                        <i aria-hidden="true" class="fa fa-share"></i>
+                        <span class="text-small text-muted comment-user-name">
+                            {{ comment.reply_to }}
+                        </span>
+                    {% endif %}
+                </header>
+                <div class="comment-body">{{ comment.content }}</div>
+                <footer class="comment-footer flex-left">
+                    <span class="text-small text-muted comment-date">
+                        {{ comment.created_time|date:"Y-m-d H:i" }}
+                    </span>
+                    {% if user.is_authenticated %}
+                        <a href="#" class="text-small text-muted btn-reply">回复</a>
+                    {% else %}
+                        <a class="text-small text-muted btn-reply" href="{% url 'userprofile:login' %}">回复</a>
+                    {% endif %}
+                </footer>
+                {% if not node.is_leaf_node %}
+                    <div class="comment-descendants">
+                        {{ children }}
+                    </div>
+                {%  endif %}
+            </div>
         </div>
-    </div>
-    <div><!----> <div><div class="flex-center comment"><div class="unit-0"><img alt="" src="http://tvax3.sinaimg.cn/default/images/default_avatar_male_180.gif" class="comment-mugshot"></div> <div class="unit root-comment"><header class="comment-user"><span class="text-small text-muted comment-user-name">llp182
-          <!----></span> <!----></header> <div class="comment-body"><p>这样不行吧，就算用了salf也会有html格式在哪</p></div> <footer class="comment-footer flex-left"><time class="text-small text-muted comment-date">2018-09-29 13:21:33</time> <!----></footer> <!----> <!----></div></div><div class="flex-center comment"><div class="unit-0"><img alt="" src="https://avatars0.githubusercontent.com/u/16167459?v=4" class="comment-mugshot"></div> <div class="unit root-comment"><header class="comment-user"><span class="text-small text-muted comment-user-name">sujianqingfeng
-          <!----></span> <!----></header> <div class="comment-body"><p>信号 是否可行呢&nbsp;</p></div> <footer class="comment-footer flex-left"><time class="text-small text-muted comment-date">2018-06-03 00:48:58</time> <!----></footer> <!----> <!----></div></div><div class="flex-center comment"><div class="unit-0"><img alt="" src="https://avatars7.githubusercontent.com/u/21219371?v=4" class="comment-mugshot"></div> <div class="unit root-comment"><header class="comment-user"><span class="text-small text-muted comment-user-name">李江波
-          <!----></span> <!----></header> <div class="comment-body">楼主，当我body里面有markdown语法的时候，摘要没有转换，这样看起来很难看呢</div> <footer class="comment-footer flex-left"><time class="text-small text-muted comment-date">2017-07-15 11:24:21</time> <!----></footer> <!----> <div class="comment-descendants"><div class="flex-center comment"><div class="unit-0"><img alt="" src="https://avatars2.githubusercontent.com/u/13174219?v=4" class="comment-mugshot"></div> <div class="unit root-comment"><header class="comment-user"><span class="text-small text-muted comment-user-name">追梦人物
-          <span class="master">[博主]</span></span> <i aria-hidden="true" class="fa fa-share"></i> <span class="text-small text-muted comment-user-name">李江波
-          <!----></span></header> <div class="comment-body">教程中没有转换，如果有需要可以自己转换的，方法一样。</div> <footer class="comment-footer flex-left"><time class="text-small text-muted comment-date">2017-07-19 12:46:47</time> <!----></footer> <!----> <!----></div></div></div></div></div><div class="flex-center comment"><div class="unit-0"><img alt="" src="https://avatars3.githubusercontent.com/u/22721646?v=4" class="comment-mugshot"></div> <div class="unit root-comment"><header class="comment-user"><span class="text-small text-muted comment-user-name">李繁
-          <!----></span> <!----></header> <div class="comment-body">测试下评论功能，不要介意</div> <footer class="comment-footer flex-left"><time class="text-small text-muted comment-date">2017-06-06 10:01:36</time> <!----></footer> <!----> <div class="comment-descendants"><div class="flex-center comment"><div class="unit-0"><img alt="" src="https://avatars3.githubusercontent.com/u/22721646?v=4" class="comment-mugshot"></div> <div class="unit root-comment"><header class="comment-user"><span class="text-small text-muted comment-user-name">李繁
-          <!----></span> <i aria-hidden="true" class="fa fa-share"></i> <span class="text-small text-muted comment-user-name">李繁
-          <!----></span></header> <div class="comment-body">测试</div> <footer class="comment-footer flex-left"><time class="text-small text-muted comment-date">2017-06-06 10:01:57</time> <!----></footer> <!----> <!----></div></div><div class="flex-center comment"><div class="unit-0"><img alt="" src="https://avatars3.githubusercontent.com/u/22721646?v=4" class="comment-mugshot"></div> <div class="unit root-comment"><header class="comment-user"><span class="text-small text-muted comment-user-name">李繁
-          <!----></span> <i aria-hidden="true" class="fa fa-share"></i> <span class="text-small text-muted comment-user-name">李繁
-          <!----></span></header> <div class="comment-body">cese</div> <footer class="comment-footer flex-left"><time class="text-small text-muted comment-date">2017-06-06 15:28:42</time> <!----></footer> <!----> <!----></div></div><div class="flex-center comment"><div class="unit-0"><img alt="" src="https://avatars2.githubusercontent.com/u/13174219?v=4" class="comment-mugshot"></div> <div class="unit root-comment"><header class="comment-user"><span class="text-small text-muted comment-user-name">追梦人物
-          <span class="master">[博主]</span></span> <i aria-hidden="true" class="fa fa-share"></i> <span class="text-small text-muted comment-user-name">李繁
-          <!----></span></header> <div class="comment-body">请不要在其余文章测试评论了，这里有专门的测试区 http://zmrenwu.com/post/24。谢谢您的理解和支持！</div> <footer class="comment-footer flex-left"><time class="text-small text-muted comment-date">2017-06-06 15:36:56</time> <!----></footer> <!----> <!----></div></div><div class="flex-center comment"><div class="unit-0"><img alt="" src="https://avatars3.githubusercontent.com/u/22721646?v=4" class="comment-mugshot"></div> <div class="unit root-comment"><header class="comment-user"><span class="text-small text-muted comment-user-name">李繁
-          <!----></span> <i aria-hidden="true" class="fa fa-share"></i> <span class="text-small text-muted comment-user-name">追梦人物
-          <span class="master">[博主]</span></span></header> <div class="comment-body">收到</div> <footer class="comment-footer flex-left"><time class="text-small text-muted comment-date">2017-06-06 15:48:54</time> <!----></footer> <!----> <!----></div></div></div></div></div></div> <!----></div>
+        {% endwith %}
+    {% endrecursetree %}
 {% endblock %}

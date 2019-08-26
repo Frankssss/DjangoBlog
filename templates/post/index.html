@@ -6,39 +6,20 @@
 {% for post in posts %}
     <div class="blog-post-list">
         <article class="blog-post" id="blog-post-{{ post.id }}">
-          <h5 class="blog-post-title"><a class="" href="/post/28/">{{ post.title }}</a></h5>
-          <p class="blog-post-brief"></p>
-          <footer class="blog-post-meta">
-            <time class="meta-item" title="2017年5月11日">2017年5月11日</time>
-            <span class="meta-separator">-</span>
-            <a class="meta-item" href="/post/28/">9 评论</a>
-            <span class="meta-separator">-</span>
-            <a class="meta-item" href="/post/28/">4846 阅读</a>
-          </footer>
+            <h5 class="blog-post-title">
+                <a class="" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            </h5>
+            <p class="blog-post-brief"></p>
+            <footer class="blog-post-meta">
+                <time class="meta-item" title="{{ post.pub_time }}">{{ post.pub_time }}</time>
+                <span class="meta-separator">-</span>
+                <a class="meta-item" href="{{ post.get_absolute_url }}">{{ post.comments.count }} 评论</a>
+                <span class="meta-separator">-</span>
+                <a class="meta-item" href="{{ post.get_absolute_url }}">{{ post.views }} 阅读</a>
+            </footer>
         </article>
     </div>
 {% empty %}
     <div class="no-post">暂时还没有发布的文章！</div>
 {% endfor %}
-
-<!-- 简单分页效果
-<div class="pagination-simple">
-    <a href="#">上一页</a>
-    <span class="current">第 6 页 / 共 11 页</span>
-    <a href="#">下一页</a>
-</div>
--->
-{#<div class="pagination">#}
-{#    <ul>#}
-{#        <li><a href="">1</a></li>#}
-{#        <li><a href="">...</a></li>#}
-{#        <li><a href="">4</a></li>#}
-{#        <li><a href="">5</a></li>#}
-{#        <li class="current"><a href="">6</a></li>#}
-{#        <li><a href="">7</a></li>#}
-{#        <li><a href="">8</a></li>#}
-{#        <li><a href="">...</a></li>#}
-{#        <li><a href="">11</a></li>#}
-{#    </ul>#}
-{#</div>#}
 {% endblock %}

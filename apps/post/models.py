@@ -7,8 +7,8 @@ import markdown
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
-    is_nav = models.BooleanField(default=False)
+    name = models.CharField(verbose_name='名称', max_length=100)
+    is_nav = models.BooleanField(verbose_name='是否是导航栏', default=False)
 
     def __str__(self):
         return self.name
@@ -20,7 +20,7 @@ class Category(models.Model):
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(verbose_name='名称', max_length=100)
 
     def __str__(self):
         return self.name
@@ -32,14 +32,14 @@ class Tag(models.Model):
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=70)
-    body = models.TextField()
-    pub_time = models.DateTimeField(auto_now_add=True)
-    mod_time = models.DateTimeField(auto_now=True)
-    category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
-    tags = models.ManyToManyField(Tag, blank=True)
-    views = models.PositiveIntegerField(default=0)
-    author = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    title = models.CharField(verbose_name='标题', max_length=70)
+    body = models.TextField(verbose_name='正文')
+    pub_time = models.DateTimeField(verbose_name='发布时间', auto_now_add=True)
+    mod_time = models.DateTimeField(verbose_name='修改时间', auto_now=True)
+    category = models.ForeignKey(Category,verbose_name='分类', null=True, blank=True, on_delete=models.SET_NULL)
+    tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
+    views = models.PositiveIntegerField(default=0, verbose_name='浏览量')
+    author = models.ForeignKey(User, verbose_name='作者', null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.title
