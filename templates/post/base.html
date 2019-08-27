@@ -2,30 +2,33 @@
 {% load blog_tags %}
 
 <html lang="zh-cn"><head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <meta name="baidu-site-verification" content="GOgEP8c1pN">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="baidu-site-verification" content="GOgEP8c1pN">
 
-  <!-- 站点描述，主要用于 SEO -->
+    <!-- 站点描述，主要用于 SEO -->
 
-  {% block title %}{% endblock %}
+    {% block title %}{% endblock %}
 
-  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-  <link rel="stylesheet" href="{% static 'post/css/mobi.min.css' %}">
-  <link rel="stylesheet" href="{% static 'post/css/modal.min.css' %}">
-  <link rel="stylesheet" href="{% static 'post/css/friendly.css' %}">
-  <link rel="stylesheet" href="{% static 'post/css/blog.css' %}">
-  <link rel="stylesheet" href="{% static 'courses/css/courses.css' %}">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'post/css/mobi.min.css' %}">
+    <link rel="stylesheet" href="{% static 'post/css/modal.min.css' %}">
+    <link rel="stylesheet" href="{% static 'post/css/friendly.css' %}">
+    <link rel="stylesheet" href="{% static 'post/css/blog.css' %}">
+    <link rel="stylesheet" href="{% static 'courses/css/courses.css' %}">
+    <link rel="stylesheet" href="{% static 'post/css/googlecode.css' %}">
 
-  <link rel="stylesheet" href="https://unpkg.com/mavon-editor@2.7.5/dist/css/index.css">
-  <link type="text/css" href="{% static 'post/main.91c392638bb353652f55.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/mavon-editor@2.7.5/dist/css/index.css">
+    <link type="text/css" href="{% static 'post/main.91c392638bb353652f55.css' %}" rel="stylesheet">
 
     <script src="https://zz.bdstatic.com/linksubmit/push.js"></script>
     <script src="https://hm.baidu.com/hm.js?fb59b2a6022bccc02671a750f61c356b"></script>
+    <script src="{% static 'post/js/highlight.pack.js' %}"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
     <script>
         // baidu statistics
         var _hmt = _hmt || [];

@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 
 from .models import Post, Tag, Category
+from comment.forms import CommentForm
 
 import markdown
 
@@ -41,21 +42,12 @@ class PostDetailView(DetailView):
         self.object.increase_views()
         return response
 
-    def get_object(self, queryset=None):
-        post = super(PostDetailView, self).get_object(queryset=None)
-        post.body = markdown.markdown(post.body,
-                                      extensions=[
-                                          'markdown.extensions.extra',
-                                          'markdown.extensions.codehilite',
-                                          'markdown.extensions.toc',
-                                      ])
-        return post
-
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
         post = super(PostDetailView, self).get_object(queryset=None)
         comments = post.comments.all()
-        context.update({'comments': comments})
+        comment_form = CommentForm(initial={'post_id': post.id})
+        context.update({'comments': comments, 'comment_form': comment_form})
         return context
 
     # def pagination_data(self, paginator, page, is_paginated):

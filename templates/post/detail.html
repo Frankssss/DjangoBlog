@@ -44,24 +44,35 @@
     </div>
     <br>
     <section class="comment-area top-gap-big" id="comment-area">
-        <div class="flex-center top-gap login-panel p-7">
-      <div>
-        <div class="text-muted text-center login-header"><span>登录后回复</span></div>
-        <div class="flex-center text-center social-icons mt-3">
-            <span class="weibo mr-3">
-                <a href="/accounts/weibo/login/">
-                    <i class="fab fa-weibo"></i>
-                </a>
-            </span>
-            <span class="github">
-                <a href="/accounts/github/login/">
-                    <i class="fab fa-github"></i>
-                </a>
-            </span>
-        </div>
-      </div>
-    </div>
-        <h5>9 条评论 / 5 人参与</h5>
+        {% if request.user.is_authenticated %}
+            <form action="{% url 'comment:comment' %}" method="POST" style="overflow:hidden">
+                {% csrf_token %}
+                {{ comment_form }}
+                <input type="submit" value="发布" class="btn btn-primary" style="float:right">
+            </form>
+        {% else %}
+            <div class="flex-center top-gap login-panel p-7">
+                <div>
+                    <div class="text-muted text-center login-header">
+                        <span>登录后回复</span>
+                    </div>
+                    <div class="flex-center text-center social-icons mt-3">
+                        <span class="weibo mr-3">
+                            <a href="/accounts/weibo/login/">
+                                <i class="fab fa-weibo"></i>
+                            </a>
+                        </span>
+                        <span class="github">
+                            <a href="/accounts/github/login/">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <h5>{{ post.comments.count }} 条评论</h5>
     </section>
     {% recursetree comments %}
         {% with comment=node %}

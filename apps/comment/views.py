@@ -1,25 +1,24 @@
-from django.shortcuts import render, get_object_or_404, HttpResponse
+from django.shortcuts import render, get_object_or_404, HttpResponse, redirect
+from django.urls import reverse
 
+from .forms import CommentForm
 from .models import Comment
+
 from post.models import Post
 
-def post_comment(request, postid, parent=None):
-    post = get_object_or_404(Post, id=postid)
 
+def post_comment(request):
+    referer = request.META.get('HTTP_REFERER', reverse('post:index'))
     if request.method == 'POST':
-        form = Comment(request.POST)
-        if form.is_valid():
-            new_comment = form.save(commit=False)
-            new_comment.post = post
-            new_comment.user = request.user
-
-            if parent:
-                parent_comment = Comment.objects.get(id=parent)
-                new_comment.parent = parent_comment.get_root().id
-                new_comment.reply_to = parent_comment.user
-                new_comment.save()
-                return HttpResponse('200')
+        print('sadfds')
+        comment_form = CommentForm(request.POST, user=request.user)
+        if comment_form.is_valid():
+            print('asff')
+            new_comment = Comment()
+            new_comment.post = comment_form.cleaned_data['post']
+            new_comment.user = comment_form.cleaned_data['user']
+            new_comment.content = comment_form.cleaned_data['coontent']
             new_comment.save()
-            return HttpResponse('200')
+            return redirect(referer)
         else:
-            return HttpResponse('400')
+            return HttpResponse("400")

@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.html import strip_tags
+from ckeditor_uploader.fields import RichTextUploadingField
+
 
 import markdown
 
@@ -33,7 +35,7 @@ class Tag(models.Model):
 
 class Post(models.Model):
     title = models.CharField(verbose_name='标题', max_length=70)
-    body = models.TextField(verbose_name='正文')
+    body = RichTextUploadingField(verbose_name='正文', config_name='my_config')
     pub_time = models.DateTimeField(verbose_name='发布时间', auto_now_add=True)
     mod_time = models.DateTimeField(verbose_name='修改时间', auto_now=True)
     category = models.ForeignKey(Category,verbose_name='分类', null=True, blank=True, on_delete=models.SET_NULL)
