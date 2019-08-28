@@ -1,4 +1,5 @@
 {% extends 'post/base.html' %}
+{% load staticfiles %}
 {% load mptt_tags %}
 {% block title %}
     <title>{{ post.title }}</title>
@@ -29,9 +30,12 @@
                     <li data-provider="alipay">支付宝</li>
                   </ul>
                   <ul class="flex-center donate__qrcode">
-                    <li><img data-provider="alipay" data-level="0" id="alipay0" class="qrcode__img" src="/static/courses/images/pay/alipay0.jpg" alt=""></li>
-                    <li><img data-provider="wechatpay" data-level="0" id="wechatpay0" class="qrcode__img" src="/static/courses/images/pay/wechatpay0.png" alt="">
+                    <li><img data-provider="alipay" data-level="0" id="alipay0" class="qrcode__img" src="{% static 'post/img/wechat.png' %}" alt=""></li>
+                    <li><img data-provider="wechatpay" data-level="0" id="wechatpay0" class="qrcode__img" src="{% static 'post/img/wechat.png' %}" alt="">
                     </li>
+                  </ul>
+                  <ul class="flex-center text-small text-muted donate__amount-tabs">
+                    <li data-level="0" class="amount-tabs_item_active">任意</li>
                   </ul>
                 </div>
               </div>
@@ -45,9 +49,13 @@
     <br>
     <section class="comment-area top-gap-big" id="comment-area">
         {% if request.user.is_authenticated %}
-            <form action="{% url 'comment:comment' %}" method="POST" style="overflow:hidden">
+            <form id="comment_form" action="{% url 'comment:comment' %}" method="POST" style="overflow:hidden">
                 {% csrf_token %}
-                {{ comment_form }}
+                {{ comment_form.media }}
+                {% for field in comment_form %}
+                    {{ field }}
+                {% endfor %}
+                <span id="comment_error" class="text-danger pull-left"></span>
                 <input type="submit" value="发布" class="btn btn-primary" style="float:right">
             </form>
         {% else %}
@@ -96,7 +104,7 @@
                         {{ comment.created_time|date:"Y-m-d H:i" }}
                     </span>
                     {% if user.is_authenticated %}
-                        <a href="#" class="text-small text-muted btn-reply">回复</a>
+                        <a class="text-small text-muted btn-reply reply_to">回复</a>
                     {% else %}
                         <a class="text-small text-muted btn-reply" href="{% url 'userprofile:login' %}">回复</a>
                     {% endif %}
@@ -110,4 +118,32 @@
         </div>
         {% endwith %}
     {% endrecursetree %}
+{% endblock %}
+
+{% block script_extends %}
+    <script>
+         $('#comment_form').submit(function(){
+             $("#comment_error").text("");
+             if(CKEDITOR.instances['id_comment_text'].document.getBody().getText().trim()==''){
+                 $("#comment_error").text('评论内容不能为空');
+                 return false;
+             }
+            $.ajax({
+                url: "{% url 'comment:comment' %}",
+                type: 'POST',
+                data: $(this).serialize(),
+                cache: false,
+                success: function(data){
+                    console.log(data)
+                }
+            })
+         });
+
+         $(".reply_to").click(function(comment_id){
+             $("input[name^='parent']").val(comment_id);
+             CKEDITOR.instances['id_comment_text'].setData('@sadfsdf\n');
+             $('body').animate({scrollTop: $('#comment_form').offset().top}, 500);
+             return false;
+         });
+    </script>
 {% endblock %}

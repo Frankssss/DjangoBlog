@@ -46,7 +46,7 @@ class PostDetailView(DetailView):
         context = super(PostDetailView, self).get_context_data(**kwargs)
         post = super(PostDetailView, self).get_object(queryset=None)
         comments = post.comments.all()
-        comment_form = CommentForm(initial={'post_id': post.id})
+        comment_form = CommentForm(initial={'post_id': post.id, 'parent':1})
         context.update({'comments': comments, 'comment_form': comment_form})
         return context
 
