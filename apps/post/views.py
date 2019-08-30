@@ -46,9 +46,29 @@ class PostDetailView(DetailView):
         context = super(PostDetailView, self).get_context_data(**kwargs)
         post = super(PostDetailView, self).get_object(queryset=None)
         comments = post.comments.all()
-        comment_form = CommentForm(initial={'post_id': post.id, 'parent':1})
+        comment_form = CommentForm(initial={'post_id': post.id, 'parent':0})
         context.update({'comments': comments, 'comment_form': comment_form})
         return context
+
+
+def bad_request(request):
+    return render(request, '400.html')
+
+
+# def permission_denied(request):
+#     return render(request, '403.html')
+
+def test(request):
+    from django.http import Http404, HttpResponse
+    raise Http404("thissssss")
+
+
+def page_not_found(request):
+    return render(request, '404.html')
+
+
+def error(request):
+    return render(request, '500.html')
 
     # def pagination_data(self, paginator, page, is_paginated):
     #     if not is_paginated:

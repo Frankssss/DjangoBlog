@@ -98,13 +98,13 @@
                         </span>
                     {% endif %}
                 </header>
-                <div class="comment-body">{{ comment.content }}</div>
+                <div class="comment-body">{{ comment.content|safe }}</div>
                 <footer class="comment-footer flex-left">
                     <span class="text-small text-muted comment-date">
                         {{ comment.created_time|date:"Y-m-d H:i" }}
                     </span>
                     {% if user.is_authenticated %}
-                        <a class="text-small text-muted btn-reply reply_to">回复</a>
+                        <a id="{{ comment.id }}" class="text-small text-muted btn-reply reply_to">回复</a>
                     {% else %}
                         <a class="text-small text-muted btn-reply" href="{% url 'userprofile:login' %}">回复</a>
                     {% endif %}
@@ -139,8 +139,10 @@
             })
          });
 
-         $(".reply_to").click(function(comment_id){
-             $("input[name^='parent']").val(comment_id);
+         $(".reply_to").click(function(){
+             var parent = $(this).attr('id');
+             $("input[name^='parent']").val(parent);
+             var user =
              CKEDITOR.instances['id_comment_text'].setData('@sadfsdf\n');
              $('body').animate({scrollTop: $('#comment_form').offset().top}, 500);
              return false;
