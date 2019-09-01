@@ -1,0 +1,40 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'article/css/bootstrap.css' %}">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="{% static 'article/js/bootstrap.js' %}"></script>
+    <style type="text/css">
+        body{margin:0;padding:0;}
+        .top{height:50px;width:1200px;margin:0 auto}
+        .main{width:1200px;margin:0 auto;padding-top:20px;}
+        {#.left{width:900px;float:left;padding-left:50px;padding-right:20px;}#}
+        /*.page{padding-bottom:20px;position:absolute;margin-left:10px; margin-bottom:10px}*/
+        {#.right{width:300px;float:right;padding-right:50px;}#}
+        .container{text-align:center;padding-bottom:5px;}
+        .list-group .list-group-item{border:none}
+    </style>
+</head>
+<body>
+    <div class="top">
+        {% include 'article/navbar.html' %}
+    </div>
+    <div class="main">
+        <div class="col-sm-9">
+            {% block left %}
+            {% endblock %}
+        </div>
+        <div class="col-sm-3">
+            {% include 'article/right.html' %}
+        </div>
+    </div>
+    <footer class="navbar-fixed-bottom">
+        <div class="container">
+            @2019-2010 版权所有
+        </div>
+    </footer>
+</body>
+</html>

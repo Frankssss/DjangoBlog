@@ -9,8 +9,8 @@ import markdown
 
 class IndexView(ListView):
     model = Post
-    template_name = 'post/index.html'
-    context_object_name = 'posts'
+    template_name = 'article/index.html'
+    context_object_name = 'post_list'
     paginate_by = 5
 
 
@@ -34,7 +34,7 @@ class ArchivesView(IndexView):
 
 class PostDetailView(DetailView):
     model = Post
-    template_name = 'post/detail.html'
+    template_name = 'article/detail.html'
     context_object_name = 'post'
 
     def get(self, request, *args, **kwargs):
