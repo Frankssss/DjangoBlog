@@ -15,6 +15,14 @@ def post_comment(request):
             new_comment = Comment()
             new_comment.post = comment_form.cleaned_data['post']
             new_comment.user = comment_form.cleaned_data['user']
+            parent = comment_form.cleaned_data['parent']
+            try:
+                parent = int(parent)
+                if parent > 0:
+                    comment = Comment.objects.get(id=parent)
+                    new_comment.parent = comment
+            except Exception as e:
+                pass
             new_comment.content = comment_form.cleaned_data['content']
             new_comment.save()
             return redirect(referer)
