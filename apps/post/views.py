@@ -1,10 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
+from django.db.models import Q
 
 from .models import Post, Tag, Category
 from comment.forms import CommentForm
-
-import markdown
 
 
 class IndexView(ListView):
@@ -49,6 +48,15 @@ class PostDetailView(DetailView):
         comment_form = CommentForm(initial={'post_id': post.id, 'parent':0})
         context.update({'comments': comments, 'comment_form': comment_form})
         return context
+
+
+def search(request):
+    q = request.GET.get('q')
+    if not q:
+        error_msg = '请输入关键词'
+        return render(request, 'article/index.html', {'error_msg': error_msg})
+    post_list = Post.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
+    return render(request, 'article/index.html', {'post_list':post_list})
 
 
 def bad_request(request):

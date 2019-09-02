@@ -1,7 +1,7 @@
 __author__ = "Frank Shen"
 
 from django.urls import path
-from .views import IndexView, PostDetailView, CategoryView, ArchivesView, TagView, test
+from .views import IndexView, PostDetailView, CategoryView, ArchivesView, TagView, test, search
 
 app_name = 'post'
 urlpatterns = [
@@ -10,5 +10,6 @@ urlpatterns = [
     path('post/<int:year>/<int:month>/', ArchivesView.as_view(), name='archives'),
     path('category/<int:pk>/', CategoryView.as_view(), name='category'),
     path('tag/<int:pk>/', TagView.as_view(), name='tag'),
+    path('search/', search, name='search'),
     path('test/', test, name='test')
 ]

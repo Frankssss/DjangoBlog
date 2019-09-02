@@ -3,11 +3,13 @@
 {% block left %}
     <div class="list-group">
         {% for post in post_list  %}
-            <a href="{{ post.get_absolute_url }}" class="list-group-item">
+            <a href="{{ post.get_absolute_url }}" target="_blank" class="list-group-item">
                 <span class="badge">{{ post.views }}</span>
                 <h4 class="list-group-item-heading">{{ post.title }}</h4>
                 <span>发布于 {{ post.pub_time }}</span>
             </a>
+        {% empty %}
+            暂无文章
         {% endfor %}
     </div>
     <div class="page">

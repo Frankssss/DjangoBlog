@@ -17,13 +17,13 @@
     <li class="list-group-item active">分类</li>
     {% get_categories as category_list %}
     {% for cate in category_list %}
-        <a class="list-group-item" href="{% url "post:category" cate.id %}">{{ cate.name }} ({{ cate.num_posts }})</a>
+        <a class="list-group-item" href="{% url 'post:category' cate.id %}">{{ cate.name }} ({{ cate.num_posts }})</a>
     {% endfor %}
 </ul>
 <ul class="list-group">
     <li class="list-group-item active">标签云</li>
     {% get_tags as tag_list %}
     {% for tag in tag_list %}
-        <a class="list-group-item" href="{% url "post:tag" tag.id %}">{{ tag.name }} ({{ tag.num_posts }})</a>
+        <a class="list-group-item" href="{% url 'post:tag' tag.id %}">{{ tag.name }} ({{ tag.num_posts }})</a>
     {% endfor %}
 </ul>
