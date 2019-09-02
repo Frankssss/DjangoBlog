@@ -8,10 +8,11 @@
     <link rel="shortcut icon" href="{% static 'post/img/sh.ico' %}" type="image/x-icon" />
     <link rel="stylesheet" href="{% static 'article/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'article/css/googlecode.css' %}">
+    <link rel="stylesheet" href="{% static 'article/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.10.2/css/fontawesome.min.css">
     <script src="{% static 'article/js/highlight.pack.js' %}"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
-    <!--<script src="{% static 'article/js/bootstrap.js' %}"></script>-->
+
     <style type="text/css">
         body{margin:0;padding:0;}
         body > .container{padding-top:20px;}
@@ -24,6 +25,12 @@
             color: #555;
             background-color: #e7e7e7;
         }
+
+        .navbar-right li:hover{
+            background: #337ab7;
+            color: #fff;
+        }
+
         /*移动端自适应*/
         #toggle-checkbox:checked ~ div{
             display: block !important;
@@ -63,5 +70,32 @@
             @2019-2010 版权所有
         </address>
     </div>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="loginModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" style="text-align: center;">登录</div>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" style="padding: 10px;">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="username" placeholder="账户名">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="password" placeholder="密码">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align: center;">
+                <button type="button" class="btn btn-primary" style="width: 100%">Login</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="{% static 'article/js/bootstrap.min.js' %}"></script>
+<script src="http://cdn.bootcss.com/bootstrap/2.3.1/js/bootstrap-modal.js"></script>
 </body>
 </html>

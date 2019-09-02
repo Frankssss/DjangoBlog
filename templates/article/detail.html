@@ -28,6 +28,7 @@
 <h1 class="blog-title">{{ post.title }}</h1>
 <div class="blog-info">
     <span>发布于 {{ post.pub_time }}</span>
+    <span class="far fa-eye"> 0</span>
     <span>- {{ post.views }} 浏览</span>
     <label class="label label-info">{{ post.category }}</label>
     <!--<label class="label label-info">{{ post.tags }}</label>-->
@@ -35,7 +36,16 @@
 <div class="blog-content">
     {{ post.body|safe }}
 </div>
-
+    <div>
+        <h3>Reviews</h3>
+        <a class="btn_1 add_bottom_15" href="#" data-toggle="modal" data-target="#myReview">Leave a review</a>
+    </div>
+    <div class="review_strip_single">
+        <img class="img-circle" alt="" src="{% static 'post/img/sh.ico' %}">
+        <small>- 10 March 2015 -</small>
+        <h4>Jhon Doe</h4>
+        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lorem quis neque interdum consequat ut sed sem. Duis quis tempor nunc. Interdum et malesuada fames ac ante ipsum primis in faucibus."</p>
+    </div>
 
 <!--<form id="comment_form" action="{% url 'comment:comment' %}" method="POST" style="overflow:hidden">-->
     <!--{% csrf_token %}-->
