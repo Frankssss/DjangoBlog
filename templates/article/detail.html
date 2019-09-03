@@ -27,17 +27,19 @@
 {% block left %}
 <h1 class="blog-title">{{ post.title }}</h1>
 <div class="blog-info">
-    <span>发布于 {{ post.pub_time }}</span>
-    <span class="far fa-eye"> 0</span>
-    <span>- {{ post.views }} 浏览</span>
+    <span>发布于 {{ post.pub_time }}</span>&nbsp;
+    <li class="icon-comment"></li><span>0&nbsp;</span>
+    <i class="icon-eye-open"></i><span>{{ post.views }}&nbsp;</span>
     <label class="label label-info">{{ post.category }}</label>
-    <!--<label class="label label-info">{{ post.tags }}</label>-->
+    {% for tag in post.tags.all %}
+        <label class="label label-info">{{ tag }}</label>
+    {%  endfor %}
 </div>
 <div class="blog-content">
     {{ post.body|safe }}
 </div>
     <div>
-        <h3>Reviews</h3>
+        <h3>{{ post.comments.count }} COMMENTS</h3>
         <a class="btn_1 add_bottom_15" href="#" data-toggle="modal" data-target="#myReview">Leave a review</a>
     </div>
     <div class="review_strip_single">

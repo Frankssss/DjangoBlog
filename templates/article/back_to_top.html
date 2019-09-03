@@ -1,0 +1,24 @@
+<style type="text/css">
+    #back-to-top{
+        position:fixed;
+        bottom:1.5rem;
+        right:1.5rem;
+        background:red;
+    }
+</style>
+<button type="button" id="back-to-top" stlyle="z-index:100;">Top</button>
+<script>
+    $(function (){
+        $("#back-to-top").hide();
+        $('#back-to-top').click(function () {
+            $('html, body').animate({scrollTop:0}, 500);
+        })
+        $(window).scroll(function(){
+            if ($(this).scrollTop() > 300){
+                $('#back-to-top').fadeIn(300);
+            } else {
+                $('#back-to-top').stop().fadeOut(300);
+            }
+        })
+    })
+</script>
