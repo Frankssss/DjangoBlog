@@ -1,165 +1,131 @@
 {% load staticfiles %}
-{% load blog_tags %}
-
-<html lang="zh-cn"><head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <meta name="baidu-site-verification" content="GOgEP8c1pN">
-
-    <!-- 站点描述，主要用于 SEO -->
-
-    {% block title %}{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="shortcut icon" href="{% static 'post/img/sh.ico' %}" type="image/x-icon" />
-    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'post/css/mobi.min.css' %}">
-    <link rel="stylesheet" href="{% static 'post/css/modal.min.css' %}">
-    <link rel="stylesheet" href="{% static 'post/css/friendly.css' %}">
-    <link rel="stylesheet" href="{% static 'post/css/blog.css' %}">
-    <link rel="stylesheet" href="{% static 'courses/css/courses.css' %}">
+    <link rel="stylesheet" href="{% static 'post/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'post/css/googlecode.css' %}">
-
-    <link rel="stylesheet" href="https://unpkg.com/mavon-editor@2.7.5/dist/css/index.css">
-    <link type="text/css" href="{% static 'post/main.91c392638bb353652f55.css' %}" rel="stylesheet">
-
-    <script src="https://zz.bdstatic.com/linksubmit/push.js"></script>
-    <script src="https://hm.baidu.com/hm.js?fb59b2a6022bccc02671a750f61c356b"></script>
+    <link rel="stylesheet" href="{% static 'post/css/font-awesome.min.css' %}">
     <script src="{% static 'post/js/highlight.pack.js' %}"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="{% static 'post/js/jquery-3.3.1.min.js' %}"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script>
-        // baidu statistics
-        var _hmt = _hmt || [];
-        (function () {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?fb59b2a6022bccc02671a750f61c356b";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-        })();
+    <style type="text/css">
+        html, body{
+            height:100%;
+            margin: 0;
+        }
+        .wrapper{
+            min-height:100%;
+            margin-bottom:-50px;
+        }
+        .wrapper > .container{
+            padding-top:70px;
+        }
+        .footer-content, .push{
+            height:50px;
+        }
+        .list-group .list-group-item{border:none}
 
-        // baidu auto push
-        (function () {
-            var bp = document.createElement('script');
-            var curProtocol = window.location.protocol.split(':')[0];
-            if (curProtocol === 'https') {
-                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-            }
-            else {
-                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-            }
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(bp, s);
-        })();
-    </script>
+        .navbar-list li:hover{
+            color: #555;
+            background-color: #e7e7e7;
+        }
+        .navbar-right li:hover{
+            background: #337ab7;
+            color: #fff;
+        }
 
+        /*移动端自适应*/
+        #toggle-checkbox:checked ~ div{
+            display: block !important;
+        }
+        .toggle-label{
+            display: inline-block;
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 15px;
+            font-weight: normal;
+            color: #777;
+        }
+        .toggle-label:hover{
+            color: #333;
+        }
+        /* 黏性侧边栏 */
+        .sidebar{
+            will-change: min-height;
+        }
+        .sidebar__inner{
+            transform: translate(0, 0);
+            transform: translate3d(0, 0, 0);
+            will-change: position, transform;
+        }
+    </style>
 </head>
 
 <body>
-<header class="flex-center blog-header bg-white w-100">
-  <div class="container-wider flex-middle reset-0">
-    <nav class="flex-middle navbar w-100">
-      <a href="/" class="unit-0 hide-on-mobile blog-logo" id="blog-logo">
-        <img src="{% static 'post/img/logo.PNG' %}" class="blog-logo-img" alt="">
-      </a>
-      <a href="/" class="unit-0 show-on-mobile text-muted"><i class="fas fa-home"></i></a>
-      <a href="" class="unit"></a>
-        {% if request.user.is_authenticated %}
-            {{ request.user }}
-            <a class="unit-0 nav-item" href="/accounts/signup/">登出</a>
-        {% else %}
-            <a class="unit-0 nav-item" href="/accounts/signup/">登陆</a>
-        {% endif %}
-    </nav>
-  </div>
-</header>
+    <div class="wrapper">
+        <div class="navbar navbar-default navbar-fixed-top">
+            {% include 'post/navbar.html' %}
+        </div>
 
-<div class="flex-center blog-content-wrapper">
-    <div class="container-wider">
-       <div class="flex-left flex-wrap units-gap-big">
-           <div class="unit-3-4 unit-1-on-mobile">
-               <main>
-                   {% block main %}
-                   {% endblock %}
-               </main>
-           </div>
-           <aside class="unit-1-4 unit-1-on-mobile">
-               <section class="top-gap-big widget widget-friend-link ">
-                <h6 class="widget-title"><i class="fa fa-link" aria-hidden="true"></i> 最热文章</h6>
-                   <div class="widget-body">
-                       {% get_host_posts as posts %}
-                       {%  for post in posts %}
-                          <ul>
-                               <li>
-                                   <a class="" target="_blank"  href="">{{ post.title }}</a>
-                               </li>
-                           </ul>
-                       {% endfor %}
-
-                   </div>
-               </section>
-               <section class="top-gap-big widget widget-medium">
-                   <h6 class="widget-title"><i class="fas fa-graduation-cap"></i> 归档</h6>
-                   <div class="widget-body">
-                       {% archives as date_list %}
-                       {% for date in date_list %}
-                           <li>
-                               <a href="{%  url 'post:archives' date.year date.month %}">{{ date.year }} 年 {{ date.month }} 月</a>
-                           </li>
-                        {% empty %}
-                        暂无归档！
-                       {% endfor %}
-                   </div>
-               </section>
-               <section class="top-gap-big widget">
-                   <h6 class="widget-title"><i class="fas fa-gift"></i> 分类</h6>
-                   <div class="widget-body">
-                       {% get_categories as category_list %}
-                       {% for category in category_list %}
-                           <li>
-                                <a href="{% url 'post:category' category.id %}">{{ category.name }} ({{ category.num_posts }})</a>
-                           </li>
-                       {% endfor %}
-                   </div>
-               </section>
-
-               <section class="top-gap-big widget">
-                   <h6 class="widget-title"><i class="fas fa-gift"></i> 标签云</h6>
-                   <div class="widget-body">
-                       {% get_tags as tag_list %}
-                       {% for tag in tag_list %}
-                           <li>
-                                <a href="{% url 'post:tag' tag.id %}">{{ tag.name }} ({{ tag.num_posts }})</a>
-                           </li>
-                       {% endfor %}
-                   </div>
-               </section>
-           </aside>
-       </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    {% block left %}
+                    {% endblock %}
+                </div>
+                <div class="col-sm-4 sidebar" id="sidebar">
+                    <div class="sidebar__inner">
+                        {% include 'post/right.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="push"></div>
     </div>
-</div>
-<footer class="bg-white py-5 mt-5 text-small text-muted">
-  <div class="flex-center">
-    <div>© 2018-2019 Frank的博客</div>
-  </div>
-  <div class="flex-center">
-    <div><a href="http://www.miitbeian.gov.cn" target="_blank"></a></div>
-  </div>
-</footer>
+    <div class="footer-content">
+        <address class="text-center">
+            @2019-2010 版权所有
+        </address>
+    </div>
 
-<script src="{% static 'post/js/jquery-3.3.1.min.js' %}"></script>
-<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
-<script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
-
-<script src="{% static 'post/js/blog.js' %}"></script>
-<script type="text/javascript" src="{% static 'post/main-91c392638bb353652f55.js' %}"></script>
-
-  <script>$('[data-menu]').menu();</script>
-
-
-<a href="#" class="back-top"><i class="fa fa-arrow-up" aria-hidden="true"></i></a></body></html>
-
-{% block script_extends %}
-{% endblock %}
+    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="loginModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" style="text-align: center;">登录</div>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" style="padding: 10px;">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="username" placeholder="账户名">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password" placeholder="密码">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-primary" style="width: 100%">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="http://cdn.bootcss.com/bootstrap/2.3.1/js/bootstrap-modal.js"></script>
+    <script src="{% static 'post/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'sticky_sidebar/jquery.sticky-sidebar.min.js' %}"></script>
+    <script type="text/javascript">
+        $('#sidebar').stickySidebar({
+            topSpacing: 60,
+            bottomSpacing: 60,
+      });
+    </script>
+    {% include 'post/back_to_top.html' %}
+    {% block script_extend %}
+    {% endblock %}
+</body>
+</html>

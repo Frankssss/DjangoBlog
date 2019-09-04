@@ -1,151 +1,173 @@
+<style type="text/css">
+    .blog-title{
+        font-size:30px;
+        line-height:1.5;
+        font-weight:bold;
+    }
+    .blog-info{
+        line-height:1.8;
+        color: #9d9d9d;
+        font-size:15px;
+    }
+    .blog-info .label{
+        opacity:0.8;
+    }
+    .blog-content{
+        padding-top:15px;
+        font-size:15px;
+        line-height:1.5;
+    }
+    .comment-content{
+        position:relative;
+        padding: 20px 0 10px 0;
+        margin: 20px 0 15px 0;
+        border-bottom:1px solid #ddd
+    }
+    .comment-content img{
+        top:-15px;
+        position:absolute;
+        left:0;
+        border:4px solid #fff;
+        border-radius: 50%;
+        vertical-align:middle;
+    }
+    .comment-content small{
+        float:right;
+        font-size:12px;
+        margin-top:-10px;
+        font-style: italic;
+    }
+    .comment-content .reply{
+        float:right;
+        margin-top:-10px;
+        font-size:12px;
+        font-style: italic;
+        width:50px;
+        border-radius:30px;
+        color:#000;
+        text-align:center;
+    }
+    .comment-content .reply:hover{
+        background-color: #007bff;
+    }
+
+    .comment-content h4{
+        font-size:18px;
+        margin:-12px 0 35px 90px;
+        padding:0;
+    }
+    .comment-content p{
+        margin: 0 0 20px 0;
+    }
+    .leave-comment{
+        margin-bottom:15px;
+        background:#86b535;
+        font-size:12px;
+        color:#fff;
+        border:none;
+        outline:none;
+        transition:0.3s;
+        border-radius:20px;
+        padding: 7px 15px;
+        font-weight:bold;
+        font-family:inherit;
+    }
+    .leave-comment:hover{
+        background:#333;
+    }
+
+    .django-ckeditor-widget{
+        width:100%;
+    }
+</style>
 {% extends 'post/base.html' %}
 {% load staticfiles %}
 {% load mptt_tags %}
 {% block title %}
-    <title>{{ post.title }}</title>
+    {{ post.title }}
 {% endblock %}
-{% block main %}
-    <div class="top-gap-big">
-        <article class="blog-post">
-            <h1 class="top-gap-0">{{ post.title }}</h1>
-            <ul class="list-inline dot-divider post-meta">
-                <li class="list-inline-item text-small text-muted">
-                    {{ post.pub_time }}
-                </li>
-                <li class="list-inline-item text-small text-muted">
-                    {{ post.views }} 浏览
-                </li>
-                <li class="list-inline-item text-small text-muted">
-                    {{ post.comments.count }} 评论
-                </li>
-            </ul>
-            <div class="top-gap-big post-body">
-                {{ post.body | safe}}
-            </div>
-            <div class="donate-wrapper">
-              <div class="flex-center donate-panel">
-                <div class="donate">
-                  <ul class="flex-center text-small donate__provider-tabs">
-                    <li data-provider="wechatpay" class="provider-tabs_item_active">微信</li>
-                    <li data-provider="alipay">支付宝</li>
-                  </ul>
-                  <ul class="flex-center donate__qrcode">
-                    <li><img data-provider="alipay" data-level="0" id="alipay0" class="qrcode__img" src="{% static 'post/img/wechat.png' %}" alt=""></li>
-                    <li><img data-provider="wechatpay" data-level="0" id="wechatpay0" class="qrcode__img" src="{% static 'post/img/wechat.png' %}" alt="">
-                    </li>
-                  </ul>
-                  <ul class="flex-center text-small text-muted donate__amount-tabs">
-                    <li data-level="0" class="amount-tabs_item_active">任意</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="flex-center donate-btn-wrapper">
-                <button class="btn btn-danger text-small donate__btn"><i class="fas fa-yen-sign"></i> 赞赏
-                </button>
-              </div>
-            </div>
-        </article>
-    </div>
-    <br>
-    <section class="comment-area top-gap-big" id="comment-area">
-        {% if request.user.is_authenticated %}
-            <form id="comment_form" action="{% url 'comment:comment' %}" method="POST" style="overflow:hidden">
-                {% csrf_token %}
-                {{ comment_form.media }}
-                {% for field in comment_form %}
-                    {{ field }}
-                {% endfor %}
-                <span id="comment_error" class="text-danger pull-left"></span>
-                <input type="submit" value="发布" class="btn btn-primary" style="float:right">
-            </form>
-        {% else %}
-            <div class="flex-center top-gap login-panel p-7">
-                <div>
-                    <div class="text-muted text-center login-header">
-                        <span>登录后回复</span>
-                    </div>
-                    <div class="flex-center text-center social-icons mt-3">
-                        <span class="weibo mr-3">
-                            <a href="/accounts/weibo/login/">
-                                <i class="fab fa-weibo"></i>
-                            </a>
-                        </span>
-                        <span class="github">
-                            <a href="/accounts/github/login/">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-
-        <h5>{{ post.comments.count }} 条评论</h5>
-    </section>
+{% block left %}
+<h1 class="blog-title">{{ post.title }}</h1>
+<div class="blog-info">
+    <span>发布于 {{ post.pub_time }}</span>&nbsp;
+    <span>0</span>&nbsp;<li class="icon-comment"></li>&nbsp;
+    <span>{{ post.views }}</span>&nbsp;<i class="icon-eye-open"></i>&nbsp;
+    <label class="label label-info">{{ post.category }}</label>
+    {% for tag in post.tags.all %}
+        <label class="label label-info">{{ tag }}</label>
+    {%  endfor %}
+</div>
+<div class="blog-content">
+    {{ post.body|safe }}
+</div>
+<button class="leave-comment" >发表评论</button>
+<!--{% if request.user.is_authenticated %}-->
+    <!--<a href="#loginModal" data-toggle="modal" class="h4">登录</a><span class="h4">后评论</span>-->
+<!--{% else %}-->
+    <!--<button class="leave-comment" >发表评论</button>-->
+<!--{% endif %}-->
+<form id="comment-form" action="{% url 'comment:comment' %}" method="POST" style="overflow:hidden;display:none" >
+    {% csrf_token %}
+    {{ comment_form.media }}
+    {% for field in comment_form %}
+        {{ field }}
+    {% endfor %}
+    <span id="comment-error" class="text-danger pull-left"></span>
+    <input type="submit" value="发布" class="btn btn-primary pull-right" style="margin-top:5px;">
+</form>
+<div>
+    <h3>共&nbsp;{{ post.comments.count }}&nbsp;条评论</h3>
+</div>
+<div class="comment-list">
     {% recursetree comments %}
         {% with comment=node %}
-            <div class="flex-center comment">
-            <div class="unit-0">
-                <img alt="" src="https://avatars7.githubusercontent.com/u/21219371?v=4" class="comment-mugshot">
+            <div class="comment-content {{comment.id }}">
+                <img src="{% static 'post/img/sh.ico' %}">
+                <a class="reply" href="">回复</a>
+                <small>{{ comment.created_time }}</small>
+                <h4>{{ comment.user }}</h4>
+                {{ comment.content|safe }}
             </div>
-            <div class="unit root-comment">
-                <header class="comment-user">
-                    <span class="text-small text-muted comment-user-name">{{ comment.user }}</span>
-                    {% if comment.reply_to %}
-                        <i aria-hidden="true" class="fa fa-share"></i>
-                        <span class="text-small text-muted comment-user-name">
-                            {{ comment.reply_to }}
-                        </span>
-                    {% endif %}
-                </header>
-                <div class="comment-body">{{ comment.content|safe }}</div>
-                <footer class="comment-footer flex-left">
-                    <span class="text-small text-muted comment-date">
-                        {{ comment.created_time|date:"Y-m-d H:i" }}
-                    </span>
-                    {% if user.is_authenticated %}
-                        <a id="{{ comment.id }}" class="text-small text-muted btn-reply reply_to">回复</a>
-                    {% else %}
-                        <a class="text-small text-muted btn-reply" href="{% url 'userprofile:login' %}">回复</a>
-                    {% endif %}
-                </footer>
-                {% if not node.is_leaf_node %}
-                    <div class="comment-descendants">
-                        {{ children }}
-                    </div>
-                {%  endif %}
-            </div>
-        </div>
         {% endwith %}
     {% endrecursetree %}
+</div>
+
 {% endblock %}
-
-{% block script_extends %}
-    <script>
-         $('#comment_form').submit(function(){
-             $("#comment_error").text("");
-             if(CKEDITOR.instances['id_comment_text'].document.getBody().getText().trim()==''){
-                 $("#comment_error").text('评论内容不能为空');
-                 return false;
-             }
-            $.ajax({
-                url: "{% url 'comment:comment' %}",
-                type: 'POST',
-                data: $(this).serialize(),
-                cache: false,
-                success: function(data){
-                    console.log(data)
-                }
-            })
-         });
-
-         $(".reply_to").click(function(){
-             var parent = $(this).attr('id');
-             $("input[name^='parent']").val(parent);
-             var user =
-             CKEDITOR.instances['id_comment_text'].setData('@sadfsdf\n');
-             $('body').animate({scrollTop: $('#comment_form').offset().top}, 500);
+{% block script_extend %}
+<script>
+    $(".leave-comment").click(function(e) {
+        $("#comment-form").toggle();
+    });
+    $('#comment-form').submit(function(){
+         $("#comment-error").text("");
+         if(CKEDITOR.instances['id_comment_text'].document.getBody().getText().trim()==''){
+             $("#comment-error").text('评论内容不能为空');
              return false;
-         });
-    </script>
+         }
+        $.ajax({
+            url: "{% url 'comment:comment' %}",
+            type: 'POST',
+            data: $(this).serialize(),
+            cache: false,
+            success: function(data) {
+                console.log(data);
+                if (data['status'] == 'SUCCESS') {
+                    var comment_html = '<div class="comment-content ' + data['comment_id'] + '">\n' +
+                        '                <img src="/static/post/img/sh.ico">\n' +
+                        '                <a class="reply" href="">回复</a>\n' +
+                        '                <small>' + data['created_time'] + '</small>\n' +
+                        '                <h4>' + data['username'] + '</h4>\n' +
+                        '                <p>' + data['content'] + '</p>\n' +
+                        '            </div>'
+                    $(".comment-list").prepend(comment_html);
+                    CKEDITOR.instances['id_comment_text'].setData('');
+                }
+                else {
+                    // $('#comment-error').text(data['message']);
+                }
+            },
+        });
+        return false;
+     });
+</script>
 {% endblock %}

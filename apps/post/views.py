@@ -8,7 +8,7 @@ from comment.forms import CommentForm
 
 class IndexView(ListView):
     model = Post
-    template_name = 'article/index.html'
+    template_name = 'post/index.html'
     context_object_name = 'post_list'
     paginate_by = 5
 
@@ -33,7 +33,7 @@ class ArchivesView(IndexView):
 
 class PostDetailView(DetailView):
     model = Post
-    template_name = 'article/detail.html'
+    template_name = 'post/detail.html'
     context_object_name = 'post'
 
     def get(self, request, *args, **kwargs):
@@ -54,9 +54,9 @@ def search(request):
     q = request.GET.get('q')
     if not q:
         error_msg = '请输入关键词'
-        return render(request, 'article/index.html', {'error_msg': error_msg})
+        return render(request, 'post/index.html', {'error_msg': error_msg})
     post_list = Post.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
-    return render(request, 'article/index.html', {'post_list':post_list})
+    return render(request, 'post/index.html', {'post_list':post_list})
 
 
 def bad_request(request):

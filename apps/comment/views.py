@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, HttpResponse, redirect
+from django.http import JsonResponse
 from django.urls import reverse
 
 from .forms import CommentForm
@@ -8,7 +9,8 @@ from post.models import Post
 
 
 def post_comment(request):
-    referer = request.META.get('HTTP_REFERER', reverse('post:index'))
+    # referer = request.META.get('HTTP_REFERER', reverse('post:index'))
+    data = {}
     if request.method == 'POST':
         comment_form = CommentForm(request.POST, user=request.user)
         if comment_form.is_valid():
@@ -25,6 +27,12 @@ def post_comment(request):
                 pass
             new_comment.content = comment_form.cleaned_data['content']
             new_comment.save()
-            return redirect(referer)
+            data['status'] = 'SUCCESS'
+            data['comment_id'] = new_comment.id
+            data['username'] = new_comment.user.username
+            data['content'] = new_comment.content
+            data['created_time'] = new_comment.created_time
         else:
-            return HttpResponse("400")
+            data['status'] = 'ERROR'
+            data['message'] = list(comment_form.errors.values())[0]
+        return JsonResponse(data)

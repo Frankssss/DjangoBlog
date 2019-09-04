@@ -1,0 +1,49 @@
+{% load blog_tags %}
+{% load staticfiles %}
+<ul class="list-group">
+    <li class="list-group-item active">
+        <span class="icon-fire"></span>&nbsp;最热文章
+    </li>
+    {% get_host_posts as post_list %}
+    {% for post in post_list %}
+        <a class="list-group-item" href="{{ post.get_absolute_url }}" target="_blank">{{ post.title }}</a>
+    {% empty %}
+        <a class="list-group-item" href="#">暂无文章</a>
+    {% endfor %}
+</ul>
+<ul class="list-group">
+    <li class="list-group-item active">
+        <span class="icon-list"></span>&nbsp;归档
+    </li>
+    {% archives as date_list %}
+    {% for date in date_list %}
+        <a class="list-group-item" href="{% url 'post:archives' date.year date.month %}">{{ date.year }} 年 {{ date.month }} 月</a>
+    {% empty %}
+        <a class="list-group-item" href="#">暂无归档</a>
+    {% endfor %}
+</ul>
+<ul class="list-group">
+    <li class="list-group-item active">
+        <span class="icon-bookmark"></span>&nbsp;分类
+    </li>
+    {% get_categories as category_list %}
+    {% for cate in category_list %}
+        <a class="list-group-item" href="{% url 'post:category' cate.id %}">{{ cate.name }} ({{ cate.num_posts }})</a>
+    {% empty %}
+        <a class="list-group-item" href="#">暂无分类</a>
+    {% endfor %}
+</ul>
+<ul class="list-group">
+    <li class="list-group-item active">
+        <span class="icon-tags"></span>&nbsp;标签云
+    </li>
+    {% get_tags as tag_list %}
+    {% for tag in tag_list %}
+        <a href="{% url 'post:tag' tag.id %}">
+            <span class="badge badge-pill bage-secondary">{{ tag.name }} ({{ tag.num_posts }})</span>
+        </a>
+    {% empty %}
+        <a class="list-group-item" href="#">暂无标签云</a>
+    {% endfor %}
+</ul>
+

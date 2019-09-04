@@ -9,7 +9,9 @@ from django.db.models import ObjectDoesNotExist
 class CommentForm(forms.Form):
     parent = forms.CharField(widget=forms.HiddenInput)
     post_id = forms.IntegerField(widget=forms.HiddenInput)
-    content = forms.CharField(widget=CKEditorWidget(config_name='comment_config', attrs={'id': 'id_comment_text'}))
+    content = forms.CharField(widget=CKEditorWidget(config_name='comment_config'),attrs
+                              error_messages={'required': '评论内容不能为空'}
+                              )
 
     def __init__(self, *args, **kwargs):
         if 'user' in kwargs:
