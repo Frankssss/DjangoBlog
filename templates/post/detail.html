@@ -159,7 +159,7 @@
                         '                <h4>' + data['username'] + '</h4>\n' +
                         '                <p>' + data['content'] + '</p>\n' +
                         '            </div>'
-                    $(".comment-list").prepend(comment_html);
+                    $(".comment-list").append(comment_html);
                     CKEDITOR.instances['id_comment_text'].setData('');
                 }
                 else {
