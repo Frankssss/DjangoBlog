@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView
 from django.db.models import Q
 
 from .models import Post, Tag, Category
+from comment.models import Comment
 from comment.forms import CommentForm
 
 
@@ -44,9 +45,18 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
         post = super(PostDetailView, self).get_object(queryset=None)
-        comments = post.comments.all()
+        post_list = Post.objects.filter(id__lt=post.id).order_by('-id')
+        pre_post = post_list[0] if len(post_list) > 0 else None
+        post_list = Post.objects.filter(id__gt=post.id).order_by('-id')
+        next_post = post_list[0] if len(post_list) > 0 else None
+        comment_list = Comment.objects.filter(post=post, parent=None)
         comment_form = CommentForm(initial={'post_id': post.id, 'parent':0})
-        context.update({'comments': comments, 'comment_form': comment_form})
+        context.update({
+            'comment_list': comment_list,
+            'comment_form': comment_form,
+            'pre_post': pre_post,
+            'next_post': next_post,
+        })
         return context
 
 
@@ -65,10 +75,6 @@ def bad_request(request):
 
 # def permission_denied(request):
 #     return render(request, '403.html')
-
-def test(request):
-    from django.http import Http404, HttpResponse
-    raise Http404("thissssss")
 
 
 def page_not_found(request):

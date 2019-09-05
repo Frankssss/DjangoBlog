@@ -9,69 +9,17 @@
     <link rel="stylesheet" href="{% static 'post/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'post/css/googlecode.css' %}">
     <link rel="stylesheet" href="{% static 'post/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'post/css/style.css' %}">
+
     <script src="{% static 'post/js/highlight.pack.js' %}"></script>
     <script src="{% static 'post/js/jquery-3.3.1.min.js' %}"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <style type="text/css">
-        html, body{
-            height:100%;
-            margin: 0;
-        }
-        .wrapper{
-            min-height:100%;
-            margin-bottom:-50px;
-        }
-        .wrapper > .container{
-            padding-top:70px;
-        }
-        .footer-content, .push{
-            height:50px;
-        }
-        .list-group .list-group-item{border:none}
-
-        .navbar-list li:hover{
-            color: #555;
-            background-color: #e7e7e7;
-        }
-        .navbar-right li:hover{
-            background: #337ab7;
-            color: #fff;
-        }
-
-        /*移动端自适应*/
-        #toggle-checkbox:checked ~ div{
-            display: block !important;
-        }
-        .toggle-label{
-            display: inline-block;
-            position: absolute;
-            right: 15px;
-            top: 15px;
-            font-size: 15px;
-            font-weight: normal;
-            color: #777;
-        }
-        .toggle-label:hover{
-            color: #333;
-        }
-        /* 黏性侧边栏 */
-        .sidebar{
-            will-change: min-height;
-        }
-        .sidebar__inner{
-            transform: translate(0, 0);
-            transform: translate3d(0, 0, 0);
-            will-change: position, transform;
-        }
-    </style>
 </head>
-
 <body>
     <div class="wrapper">
         <div class="navbar navbar-default navbar-fixed-top">
             {% include 'post/navbar.html' %}
         </div>
-
         <div class="container">
             <div class="row">
                 <div class="col-sm-8">
@@ -92,29 +40,7 @@
             @2019-2010 版权所有
         </address>
     </div>
-
-    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="loginModal">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="modal-title" style="text-align: center;">登录</div>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" style="padding: 10px;">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="username" placeholder="账户名">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" id="password" placeholder="密码">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-primary" style="width: 100%">Login</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% include 'post/login.html' %}
     <script src="http://cdn.bootcss.com/bootstrap/2.3.1/js/bootstrap-modal.js"></script>
     <script src="{% static 'post/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'sticky_sidebar/jquery.sticky-sidebar.min.js' %}"></script>

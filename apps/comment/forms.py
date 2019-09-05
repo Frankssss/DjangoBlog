@@ -5,12 +5,14 @@ from post.models import Post
 from ckeditor.fields import CKEditorWidget
 from django.db.models import ObjectDoesNotExist
 
+from .models import Comment
+
 
 class CommentForm(forms.Form):
     parent = forms.CharField(widget=forms.HiddenInput)
     post_id = forms.IntegerField(widget=forms.HiddenInput)
-    content = forms.CharField(widget=CKEditorWidget(config_name='comment_config', attrs={'id': 'id_comment_text'}),
-                              error_messages={'required': '评论内容不能为空'}
+    content = forms.CharField(widget=CKEditorWidget(config_name='comment_config'),
+                              error_messages={'required': '评论内容不能为空.'}
                               )
 
     def __init__(self, *args, **kwargs):
@@ -30,3 +32,15 @@ class CommentForm(forms.Form):
         except ObjectDoesNotExist as e:
             raise forms.ValidationError('文章不存在')
         return self.cleaned_data
+
+    def clean_parent(self):
+        parent = int(self.cleaned_data['parent'])
+        if parent < 0:
+            raise forms.ValidationError('回复出错')
+        elif parent == 0:
+            self.cleaned_data['parent'] = None
+        elif Comment.objects.filter(pk=parent).exists():
+            self.cleaned_data['parent'] = Comment.objects.get(pk=parent)
+        else:
+            raise forms.ValidationError('回复出错')
+        return self.cleaned_data['parent']

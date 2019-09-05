@@ -33,15 +33,47 @@
         <a class="list-group-item" href="#">暂无分类</a>
     {% endfor %}
 </ul>
-<ul class="list-group">
+<ul class="list-group tag-list">
     <li class="list-group-item active">
         <span class="icon-tags"></span>&nbsp;标签云
     </li>
     {% get_tags as tag_list %}
-    {% for tag in tag_list %}
-        <a href="{% url 'post:tag' tag.id %}">
-            <span class="badge badge-pill bage-secondary">{{ tag.name }} ({{ tag.num_posts }})</span>
-        </a>
+    {% for elem in tag_list %}
+        {% if forloop.counter|add:0|divisibleby:5 %}
+            <a href=" ulr 'post:tag' elem.pk" class="tag">
+                <span class="label label-default">
+                    {{ elem.name }}
+                </span>
+            </a>
+        {% endif %}
+        {% if forloop.counter|add:-1|divisibleby:5 %}
+            <a href=" ulr 'post:tag' elem.pk" class="tag">
+                <span class="label label-danger">
+                    {{ elem.name }}
+                </span>
+            </a>
+        {% endif %}
+        {% if forloop.counter|add:-2|divisibleby:5 %}
+            <a href=" ulr 'post:tag' elem.pk" class="tag">
+                <span class="label label-success">
+                    {{ elem.name }}
+                </span>
+            </a>
+        {% endif %}
+        {% if forloop.counter|add:-3|divisibleby:5 %}
+            <a href=" ulr 'post:tag' elem.pk" class="tag">
+                <span class="label label-info">
+                    {{ elem.name }}
+                </span>
+            </a>
+        {% endif %}
+        {% if forloop.counter|add:-4|divisibleby:5 %}
+            <a href=" ulr 'post:tag' elem.pk" class="tag">
+                <span class="label label-warning">
+                    {{ elem.name }}
+                </span>
+            </a>
+        {% endif %}
     {% empty %}
         <a class="list-group-item" href="#">暂无标签云</a>
     {% endfor %}
