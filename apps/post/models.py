@@ -5,9 +5,6 @@ from django.utils.html import strip_tags
 from ckeditor_uploader.fields import RichTextUploadingField
 
 
-import markdown
-
-
 class Category(models.Model):
     name = models.CharField(verbose_name='名称', max_length=100)
     is_nav = models.BooleanField(verbose_name='是否是导航栏', default=False)

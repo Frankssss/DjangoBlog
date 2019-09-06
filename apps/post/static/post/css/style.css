@@ -13,8 +13,6 @@ html, body{
     height:50px;
 }
 
-.list-group .list-group-item{border:none}
-
 .navbar-list li:hover{
     color: #555;
     background-color: #e7e7e7;
@@ -22,12 +20,6 @@ html, body{
 .navbar-right li:hover{
     background: #337ab7;
     color: #fff;
-}
-.tag{
-    margin: 5px 10px;
-    width: 20px;
-    font-size:14px;
-    height:10px;
 }
 
 /*移动端自适应*/
@@ -45,16 +37,6 @@ html, body{
 }
 .toggle-label:hover{
     color: #333;
-}
-
-/* 黏性侧边栏 */
-.sidebar{
-    will-change: min-height;
-}
-.sidebar__inner{
-    transform: translate(0, 0);
-    transform: translate3d(0, 0, 0);
-    will-change: position, transform;
 }
 
 /* post-detail */

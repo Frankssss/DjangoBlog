@@ -1,81 +1,113 @@
+<style type="text/css">
+    ul.right-list{
+        list-style:none;
+        margin:0 0 20px 0;
+        padding:0;
+    }
+    ul.right-list li{
+        position: relative;
+        margin-bottom: 20px;
+        padding:15px 20px 15px 75px;
+        border: 1px solid #ededed;
+    }
+    ul.right-list li i{
+        position: absolute;
+        left:20px;
+        top:20px;
+        color:#337ab7;
+    }
+    ul.right-list li h4{
+        color: #337ab7;
+        font-family: "Varela Round", Arial, sans-serif;
+    }
+    ul.right-list li a{
+        padding: 10px 5px;
+        background-color:#fff;
+        color: #555;
+        text-decoration: none;
+    }
+    .tag{
+        width: 20px;
+        font-size:14px;
+        height:10px;
+    }
+</style>
 {% load blog_tags %}
 {% load staticfiles %}
-<ul class="list-group">
-    <li class="list-group-item active">
-        <span class="icon-fire"></span>&nbsp;最热文章
+<ul class="right-list">
+    <li>
+        <i class="icon-fire icon-2x"></i>
+        <h4>最热文章</h4>
+        {% get_host_posts as post_list %}
+        {% for post in post_list %}
+            <a class="dis" href="{{ post.get_absolute_url }}" target="_blank">{{ post.title }}</a>
+        {% empty %}
+            <a href="#">暂无文章</a>
+        {% endfor %}
     </li>
-    {% get_host_posts as post_list %}
-    {% for post in post_list %}
-        <a class="list-group-item" href="{{ post.get_absolute_url }}" target="_blank">{{ post.title }}</a>
-    {% empty %}
-        <a class="list-group-item" href="#">暂无文章</a>
-    {% endfor %}
-</ul>
-<ul class="list-group">
-    <li class="list-group-item active">
-        <span class="icon-list"></span>&nbsp;归档
+    <li>
+        <i class="icon-list icon-2x"></i>
+        <h4>归档</h4>
+        {% archives as date_list %}
+        {% for date in date_list %}
+            <a href="{% url 'post:archives' date.year date.month %}">{{ date.year }} 年 {{ date.month }} 月</a>
+        {% empty %}
+            <a href="#">暂无归档</a>
+        {% endfor %}
     </li>
-    {% archives as date_list %}
-    {% for date in date_list %}
-        <a class="list-group-item" href="{% url 'post:archives' date.year date.month %}">{{ date.year }} 年 {{ date.month }} 月</a>
-    {% empty %}
-        <a class="list-group-item" href="#">暂无归档</a>
-    {% endfor %}
-</ul>
-<ul class="list-group">
-    <li class="list-group-item active">
-        <span class="icon-bookmark"></span>&nbsp;分类
+    <li >
+        <i class="icon-bookmark icon-2x"></i>
+        <h4>分类</h4>
+        {% get_categories as category_list %}
+        {% for cate in category_list %}
+            <a href="{% url 'post:category' cate.id %}">{{ cate.name }} ({{ cate.num_posts }})</a>
+        {% empty %}
+            <a href="#">暂无分类</a>
+        {% endfor %}
     </li>
-    {% get_categories as category_list %}
-    {% for cate in category_list %}
-        <a class="list-group-item" href="{% url 'post:category' cate.id %}">{{ cate.name }} ({{ cate.num_posts }})</a>
-    {% empty %}
-        <a class="list-group-item" href="#">暂无分类</a>
-    {% endfor %}
-</ul>
-<ul class="list-group tag-list">
-    <li class="list-group-item active">
-        <span class="icon-tags"></span>&nbsp;标签云
+    <li>
+        <i class="icon-tags icon-2x"></i>
+        <h4>标签云</h4>
+        {% get_tags as tag_list %}
+        {% for elem in tag_list %}
+            {% if forloop.counter|add:0|divisibleby:5 %}
+                <a href="{% url 'post:tag' elem.pk %}" class="tag">
+                    <span class="label label-default">
+                        {{ elem.name }}
+                    </span>
+                </a>
+            {% endif %}
+            {% if forloop.counter|add:-1|divisibleby:5 %}
+                <a href="{% url 'post:tag' elem.pk %}" class="tag">
+                    <span class="label label-danger">
+                        {{ elem.name }}
+                    </span>
+                </a>
+            {% endif %}
+            {% if forloop.counter|add:-2|divisibleby:5 %}
+                <a href="{% url 'post:tag' elem.pk %}" class="tag">
+                    <span class="label label-success">
+                        {{ elem.name }}
+                    </span>
+                </a>
+            {% endif %}
+            {% if forloop.counter|add:-3|divisibleby:5 %}
+                <a href="{% url 'post:tag' elem.pk%}" class="tag">
+                    <span class="label label-info">
+                        {{ elem.name }}
+                    </span>
+                </a>
+            {% endif %}
+            {% if forloop.counter|add:-4|divisibleby:5 %}
+                <a href="{%url 'post:tag' elem.pk %}" class="tag">
+                    <span class="label label-warning">
+                        {{ elem.name }}
+                    </span>
+                </a>
+            {% endif %}
+        {% empty %}
+            <a href="#">暂无标签云</a>
+        {% endfor %}
     </li>
-    {% get_tags as tag_list %}
-    {% for elem in tag_list %}
-        {% if forloop.counter|add:0|divisibleby:5 %}
-            <a href=" ulr 'post:tag' elem.pk" class="tag">
-                <span class="label label-default">
-                    {{ elem.name }}
-                </span>
-            </a>
-        {% endif %}
-        {% if forloop.counter|add:-1|divisibleby:5 %}
-            <a href=" ulr 'post:tag' elem.pk" class="tag">
-                <span class="label label-danger">
-                    {{ elem.name }}
-                </span>
-            </a>
-        {% endif %}
-        {% if forloop.counter|add:-2|divisibleby:5 %}
-            <a href=" ulr 'post:tag' elem.pk" class="tag">
-                <span class="label label-success">
-                    {{ elem.name }}
-                </span>
-            </a>
-        {% endif %}
-        {% if forloop.counter|add:-3|divisibleby:5 %}
-            <a href=" ulr 'post:tag' elem.pk" class="tag">
-                <span class="label label-info">
-                    {{ elem.name }}
-                </span>
-            </a>
-        {% endif %}
-        {% if forloop.counter|add:-4|divisibleby:5 %}
-            <a href=" ulr 'post:tag' elem.pk" class="tag">
-                <span class="label label-warning">
-                    {{ elem.name }}
-                </span>
-            </a>
-        {% endif %}
-    {% empty %}
-        <a class="list-group-item" href="#">暂无标签云</a>
-    {% endfor %}
 </ul>
 
