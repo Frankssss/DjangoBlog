@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
-from django.db.models import Q
+from django.db.models import Q, F
+from django.http import JsonResponse
 
 from .models import Post, Tag, Category
 from comment.models import Comment
@@ -67,6 +68,20 @@ def search(request):
         return render(request, 'post/index.html', {'error_msg': error_msg})
     post_list = Post.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
     return render(request, 'post/index.html', {'post_list':post_list})
+
+
+def increase_likes(request):
+    data = {}
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        if not Post.objects.filter(pk=id).exists():
+            data['status'] = 'ERROR'
+            data['message'] = '文章不存在'
+        else:
+            Post.objects.filter(pk=id).update(likes=F('likes')+1)
+            data['status'] = 'SUCCESS'
+            data['message'] = '点赞成功'
+        return JsonResponse(data)
 
 
 def bad_request(request):

@@ -2,97 +2,113 @@
 {% load staticfiles %}
 {% block title %}
     {{ post.title }}
-{% endblock %}
+{% endblock title %}
 {% block left %}
-<h1 class="blog-title">{{ post.title }}</h1>
-<div class="blog-info">
-    <span>发布于&nbsp{{ post.pub_time }}</span>&nbsp;&nbsp;
-    <span>0</span>&nbsp;<li class="icon-comment"></li>&nbsp;&nbsp;
-    <span>{{ post.views }}</span>&nbsp;<i class="icon-eye-open"></i>&nbsp;&nbsp;&nbsp;
-    <label class="label label-info">{{ post.category }}</label>&nbsp;
-    {% for tag in post.tags.all %}
-        <label class="label label-info">{{ tag }}</label>&nbsp;
-    {%  endfor %}
-</div>
-<div class="blog-content">
-    {{ post.body|safe }}
-</div>
-<div class="donate-area text-center">
-    <button class="donate" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-        <i class="icon-coffee"></i>
-        请博主喝咖啡
-    </button>
+    <h1 class="blog-title">{{ post.title }}</h1>
+    <div class="blog-info">
+        <span>发布于&nbsp{{ post.pub_time }}</span>&nbsp;&nbsp;
+        <span>0</span>&nbsp;<li class="icon-comment"></li>&nbsp;&nbsp;
+        <span>{{ post.views }}</span>&nbsp;<i class="icon-eye-open"></i>&nbsp;&nbsp;&nbsp;
+        <label class="label label-info">{{ post.category }}</label>&nbsp;
+        {% for tag in post.tags.all %}
+            <label class="label label-info">{{ tag }}</label>&nbsp;
+        {%  endfor %}
+    </div>
+    <div class="blog-content">
+        {{ post.body|safe }}
+    </div>
+    <div class="thumbs_content">
+        <a id="like" href="javascript:increase_likes({{ post.id }});" class="thumbs_button icon-heart-empty" title="点赞，支持一下">
+            点赞(<span id="like_num">{{post.likes}}</span>)
+        </a>
+        <a href="#collapseExample" data-toggle="collapse" class="reward_button icon-coffee" title="打赏，支持一下"> 打赏</a>
+        <span class="clear"></span>
+    </div>
     <div class="collapse" id="collapseExample">
-        <div class="col-sm-6">
-            <h4 class="text-center">微信</h4>
-            <img src="{% static 'post/img/wechat.png' %}">
-        </div>
-        <div class="col-sm-6">
-            <h4 class="text-center">支付宝</h4>
-            <img src="{% static 'post/img/wechat.png' %}">
-        </div>
-    </div>
-</div>
-<div class="post-nav">
-    {% if pre_post %}
-        <a href="{{ pre_post.get_absolute_url}}" class="pre-post pull-left h4">
-            <li class="icon-arrow-left"></li>
-            {{ pre_post.title}}
-        </a>
-    {% endif %}
-    {% if next_post %}
-        <a href="{{ next_post.get_absolute_url }}" class="next-post pull-right h4">
-            {{next_post.title}}
-        <li class="icon-arrow-right"></li>
-        </a>
-    {% endif %}
-</div>
-<div class="comment-area">
-    <!--{% if request.user.is_authenticated %}-->
-        <!--<a href="#loginModal" data-toggle="modal" class="h4">登录</a><span class="h4">后评论</span>-->
-    <!--{% else %}-->
-        <!--<button class="leave-comment" >发表评论</button>-->
-    <!--{% endif %}-->
-    <form id="comment-form" action="{% url 'comment:comment' %}" method="POST">
-        {% csrf_token %}
-        {{ comment_form.media }}
-        {% for field in comment_form %}
-            {{ field }}
-        {% endfor %}
-        <span id="comment-error" class="text-danger pull-left"></span>
-        <input type="submit" value="发布" class="btn btn-primary pull-right" style="margin-top:5px;">
-    </form>
-
-    <h3>共&nbsp;{{ post.post_comments.count }}&nbsp;条评论</h3>
-    <div class="comment-list">
-        {% for comment in comment_list %}
-            <div id="root_{{ comment.pk }}" class="comment-content">
-                <img src="{% static 'post/img/sh.ico' %}">
-                <a class="reply" href="javascript:reply({{comment.pk}});">回复</a>
-                <small>{{ comment.created_time }}</small>
-                <h4>{{ comment.user }}</h4>
-                {{ comment.content|safe }}
-                {% for reply in comment.root_comment.all %}
-                    <div class="reply-content">
-                        <img src="{% static 'post/img/sh.ico' %}">
-                        <a class="reply" href="javascript:reply({{reply.pk}});">回复</a>
-                        <small>{{ reply.created_time}}</small>
-                        <h4>
-                            {{ reply.user }}
-                            <li class="icon-reply"></li>
-                            {{ reply.reply_to.username }}
-                        </h4>
-                        {{ reply.content }}
-                    </div>
-                {% endfor %}
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="text-center">微信</h4>
+                <img class="donate" src="{% static 'post/img/wechat.png' %}" style="width:200px;height:200px">
             </div>
-        {% endfor %}
+            <div class="col-sm-6">
+                <h4 class="text-center">支付宝</h4>
+                <img class="donate" src="{% static 'post/img/wechat.png' %}" style="width:200px;height:200px">
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="post-nav">
+        {% if pre_post %}
+            <a href="{{ pre_post.get_absolute_url}}" class="pre-post pull-left h4 btn btn-sm">
+                <li class="icon-arrow-left"></li>
+                {{ pre_post.title}}
+            </a>
+        {% endif %}
+        {% if next_post %}
+            <a href="{{ next_post.get_absolute_url }}" class="next-post pull-right h4 btn btn-sm">
+                {{next_post.title}}
+            <li class="icon-arrow-right"></li>
+            </a>
+        {% endif %}
+    </div>
+    <div class="comment-area">
+        <!--{% if request.user.is_authenticated %}-->
+            <!--<a href="#loginModal" data-toggle="modal" class="h4">登录</a><span class="h4">后评论</span>-->
+        <!--{% else %}-->
+            <!--<button class="leave-comment" >发表评论</button>-->
+        <!--{% endif %}-->
+        <form id="comment-form" action="{% url 'comment:comment' %}" method="POST">
+            {% csrf_token %}
+            {{ comment_form.media }}
+            {% for field in comment_form %}
+                {{ field }}
+            {% endfor %}
+            <input type="submit" value="发布" class="btn btn-primary pull-right" style="margin-top:5px;">
+        </form>
+
+        <h3>共&nbsp;{{ post.post_comments.count }}&nbsp;条评论</h3>
+        <div class="comment-list">
+            {% for comment in comment_list %}
+                <div id="root_{{ comment.pk }}" class="comment-content">
+                    <img src="{% static 'post/img/sh.ico' %}">
+                    <a class="reply" href="javascript:reply({{comment.pk}});">回复</a>
+                    <small>{{ comment.created_time }}</small>
+                    <h4>{{ comment.user }}</h4>
+                    {{ comment.content|safe }}
+                    {% for reply in comment.root_comment.all %}
+                        <div class="reply-content">
+                            <img src="{% static 'post/img/sh.ico' %}">
+                            <a class="reply" href="javascript:reply({{reply.pk}});">回复</a>
+                            <small>{{ reply.created_time}}</small>
+                            <h4>
+                                {{ reply.user }}
+                                <li class="icon-reply"></li>
+                                {{ reply.reply_to.username }}
+                            </h4>
+                            {{ reply.content }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
 
 {% block script_extend %}
+<script src="{% static 'post/js/layer.js' %}"></script>
 <script>
+    $(document).ready(function(){
+        const blog_data = window.localStorage.getItem('blog_data');
+        let blog_data_json = JSON.parse(blog_data);
+        if (!blog_data_json){
+            blog_data_json = {};
+        }
+        post_id = '{{ post.id }}';
+        if (check_isLikes(post_id, blog_data_json)){
+            $('#like').removeClass('icon-heart-empty').addClass('icon-heart');
+        }
+    });
+
     $('#comment-form').submit(function(){
          $("#comment-error").text("");
          var content = CKEDITOR.instances['id_content'].document.getBody().getText().trim();
@@ -100,7 +116,7 @@
          var post_id = $("input[name=post_id]").val();
          var token = $("input[name=csrfmiddlewaretoken]").val();
          if(content == ''){
-             $("#comment-error").text('评论内容不能为空!');
+             layer.msg('评论内容不能为空!');
              return false;
          }
          $.ajax({
@@ -135,9 +151,6 @@
                      }
                      CKEDITOR.instances['id_content'].setData('');
                  }
-                 else {
-                     $('#comment-error').text(data['message']);
-                 }
              },
          });
          return false;
@@ -147,6 +160,53 @@
         $('html,body').animate({scrollTop: $('#comment-form').offset().top - 60}, 300, function(){
             CKEDITOR.instances['id_content'].focus();
         });
+    };
+    function check_isLikes(id, data){
+        try{
+            if (id in data && data[id]){
+                return true;
+            } else {
+                return false;
+            }
+        }catch (e){
+            whidow.localStorage.clear();
+            return false;
+        }
+    }
+    function increase_likes(post_id){
+        const blog_data = window.localStorage.getItem('blog_data');
+        let blog_data_json = JSON.parse(blog_data);
+        if (!blog_data_json){
+            blog_data_json = {};
+        }
+        if(check_isLikes(post_id, blog_data_json)){
+            layer.msg('已经点过攒了呀！');
+            $('#like').removeClass('icon-heart-empty').addClass('icon-heart');
+            return false;
+        } else {
+            $.ajax({
+                url: "{% url 'post:likes' %}",
+                type: 'POST',
+                data: {
+                    'id': post_id,
+                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
+                },
+                success: function (data){
+                    if (data.status == 'SUCCESS')
+                    {
+                        try{
+                            blog_data_json[post_id] = true;
+                            const d = JSON.stringify(blog_data_json);
+                            window.localStorage.setItem('blog_data', d);
+                            var like_num = parseInt($('#like_num').text());
+                            $('#like_num').text(like_num+1);
+                            $('#like').removeClass('icon-heart-empty').addClass('icon-heart');
+                        }  catch (e){
+                        }
+                    }
+                }
+            });
+        }
     }
 </script>
 {% endblock %}

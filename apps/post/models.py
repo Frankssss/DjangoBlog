@@ -38,6 +38,7 @@ class Post(models.Model):
     category = models.ForeignKey(Category,verbose_name='分类', null=True, blank=True, on_delete=models.SET_NULL)
     tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
     views = models.PositiveIntegerField(default=0, verbose_name='浏览量')
+    likes = models.PositiveIntegerField(default=0, verbose_name='点赞量')
     author = models.ForeignKey(User, verbose_name='作者', null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):

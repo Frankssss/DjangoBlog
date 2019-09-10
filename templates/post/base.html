@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{% static 'post/css/googlecode.css' %}">
     <link rel="stylesheet" href="{% static 'post/css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'post/css/style.css' %}">
+    <script src="{% static 'post/js/jquery-3.3.1.min.js' %}"></script>
 
     <script src="{% static 'post/js/highlight.pack.js' %}"></script>
     <script>hljs.initHighlightingOnLoad();</script>
@@ -38,8 +39,9 @@
         </address>
     </div>
     {% include 'post/login.html' %}
-    <script src="{% static 'post/js/jquery-3.3.1.min.js' %}"></script>
+
     <script src="http://cdn.bootcss.com/bootstrap/2.3.1/js/bootstrap-modal.js"></script>
+    <script src="{% static 'post/js/bootstrap-collapse.js' %}"></script>
 
     {% include 'post/back_to_top.html' %}
     {% block script_extend %}
