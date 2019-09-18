@@ -1,33 +1,47 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="{% static 'post/js/jquery-3.3.1.min.js' %}"></script>
 </head>
 <body>
-    <div class="login-box switch-box" style="display:block">
+    <div>
         <div class="title">用户登录</div>
-        <form id="loginForm" class="formBox" action="{% url 'user:login' %}" method="POST">
+        <form id="loginForm" action="{% url 'user:login' %}" method="POST">
             {% csrf_token %}
-            <div class="itembox user-name">
-                <div class="item">
-                    <input type="text" name="loginUser" placeholder="用户名或手机号">
-
-                </div>
-            </div>
-            <div class="itembox user-pwd">
-                <input type="text" name="password" placeholder="登录密码">
-            </div>
+{#            <div>#}
+{#                <input type="text" name="loginUser" placeholder="用户名或手机号">#}
+{#            </div>#}
+{#            <div>#}
+{#                <input type="text" name="password" placeholder="登录密码">#}
+{#            </div>#}
+            {{ form.as_p }}
             {% if tips %}
                 <div> 提示： <span>{{ tips }}</span></div>
             {% endif %}
-            <div class="loginBtnBox" class="login-btn">
+            <div>
                 <input type="submit" value="login">
             </div>
-            <div class="pass-reglink">
-                还没有账号?<a class="switch">免费注册</a>
+            <div>
+                还没有账号?<a href="">免费注册</a>
             </div>
         </form>
     </div>
 </body>
+<script>
+    $('#loginForm').submit(function (){
+        $.ajax({
+            url: '{% url 'user:login' %}',
+            type: 'POST',
+            cache: false,
+            data: $(this).serialize(),
+            success: function (data){
+                console.log(data)
+            }
+        });
+        return false;
+    })
+</script>
 </html>

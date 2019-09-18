@@ -1,24 +1,31 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.contrib.auth import login, logout
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth.forms import AuthenticationForm
 
 from .forms import MyUserCreationForm
 from .models import MyUser
 
 
 def loginView(request):
-    user = MyUserCreationForm()
+    form = AuthenticationForm()
     if request.method == 'POST':
-        loginUser = request.POST.get('loginUser', '')
-        password = request.POST.get('password', '')
-        if MyUser.objects.filter(Q(mobile=loginUser)| Q(username=loginUser)):
-            user = MyUser.objects.filter(Q(mobile=loginUser) | Q(username=loginUser)).first()
-            if check_password(password, user.password):
-                login(request, user)
-                return redirect('/')
-            else:
-                tips = '密码错误'
+        form = AuthenticationForm(request.POST)
+        data = {}
+        if form.is_valid():
+            username = form.cleaned_data.get('username', '')
+            password = form.cleaned_data.get('password', '')
+            if MyUser.objects.filter(Q(mobile=username)| Q(username=username)):
+                user = MyUser.objects.filter(Q(mobile=username) | Q(username=username)).first()
+                if check_password(password, user.password):
+                    login(request, user)
+                    return redirect('/')
+                else:
+                    data['status'] = 'ERROR'
+                    data['msg'] = '密码错误'
+        return JsonResponse(data)
     return render(request, 'user/login.html', locals())
 
 
