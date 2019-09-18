@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="login-box switch-box" style="display:block">
+        <div class="title">用户登录</div>
+        <form id="loginForm" class="formBox" action="{% url 'user:login' %}" method="POST">
+            {% csrf_token %}
+            <div class="itembox user-name">
+                <div class="item">
+                    <input type="text" name="loginUser" placeholder="用户名或手机号">
+
+                </div>
+            </div>
+            <div class="itembox user-pwd">
+                <input type="text" name="password" placeholder="登录密码">
+            </div>
+            {% if tips %}
+                <div> 提示： <span>{{ tips }}</span></div>
+            {% endif %}
+            <div class="loginBtnBox" class="login-btn">
+                <input type="submit" value="login">
+            </div>
+            <div class="pass-reglink">
+                还没有账号?<a class="switch">免费注册</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

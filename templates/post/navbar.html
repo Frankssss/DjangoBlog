@@ -7,8 +7,13 @@
     <div class="hidden-xs">
         <div class="col-sm-offset-2">
             <ul class="nav navbar-nav nav-bar-list navbar-right">
-                <li><a href="#login" data-toggle="modal">登陆</a></li>
-                <li><a href="#login" data-toggle="modal">注册</a></li>
+                {% if request.user.is_authenticated %}
+                    <li>{{ request.user.username }}</li>
+                    <li><a href="/accounts/logout/">登出</a></li>
+                {% else %}
+                    <li><a href="/accounts/login/" data-toggle="modal">登陆</a></li>
+                    <li><a href="/accounts/signup/" data-toggle="modal">注册</a></li>
+                {% endif %}
             </ul>
         </div>
         <form class="navbar-form navbar-right" action="{% url 'post:search' %}" method="GET">

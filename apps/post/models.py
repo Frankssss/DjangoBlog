@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from user.models import MyUser
 from django.urls import reverse
 from django.utils.html import strip_tags
 from ckeditor_uploader.fields import RichTextUploadingField
@@ -39,7 +40,7 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
     views = models.PositiveIntegerField(default=0, verbose_name='浏览量')
     likes = models.PositiveIntegerField(default=0, verbose_name='点赞量')
-    author = models.ForeignKey(User, verbose_name='作者', null=True, blank=True, on_delete=models.SET_NULL)
+    author = models.ForeignKey(MyUser, verbose_name='作者', null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.title

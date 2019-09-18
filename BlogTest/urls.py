@@ -24,6 +24,7 @@ from post import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
+    path('user/', include('user.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('comments/', include('comment.urls')),
     path('', include('post.urls')),

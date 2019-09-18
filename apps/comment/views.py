@@ -28,8 +28,8 @@ def post_comment(request):
             data['username'] = new_comment.user.username
             data['content'] = new_comment.content
             data['created_time'] = new_comment.created_time
-            data['root_id'] = new_comment.root.pk
             if parent is not None:
+                data['root_id'] = new_comment.root.id
                 data['reply_to'] = new_comment.reply_to.username
             else:
                 data['reply_to'] = ''

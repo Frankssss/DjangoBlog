@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from user.models import MyUser
 
 from post.models import Post
 
@@ -21,7 +22,7 @@ class Comment(models.Model):
         related_name='root_comment'
     )
     reply_to = models.ForeignKey(
-        User,
+        MyUser,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
@@ -33,7 +34,7 @@ class Comment(models.Model):
         on_delete=models.CASCADE
     )
     user = models.ForeignKey(
-        User,
+        MyUser,
         related_name='user_comments',
         on_delete=models.CASCADE
     )
