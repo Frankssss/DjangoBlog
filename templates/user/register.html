@@ -8,14 +8,20 @@
              <div class="form-group">
                  {{ form.username }}
              </div>
+            <div class="form-group">
+                 {{ form.email }}
+             </div>
              <div class="form-group">
-                 {{ form.password }}
+                 {{ form.password1 }}
              </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Login</button>
+                 {{ form.password2 }}
+             </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Register</button>
             </div>
             <div>
-                已有账号?去<a href="">登录</a>
+                已有账号?去<a href="{% url 'user:login' %}">登录</a>
             </div>
         </form>
     </div>
@@ -24,16 +30,15 @@
 <script>
     $('#registerForm').submit(function (){
         $.ajax({
-            url: '{% url "user:login" %}',
+            url: '{% url "user:register" %}',
             type: 'POST',
             cache: false,
             data: $(this).serialize(),
             success: function (data){
                 if (data['status'] == 'SUCCESS'){
-                    window.location='/';
+                    layer.msg(data['msg']);
                 } else if (data['status'] == 'ERROR') {
-                    console.log(data['msg']);
-                    layer.msg(data['msg'][0]);
+                    layer.msg(data['msg']);
                 }
             }
         });

@@ -1,21 +1,53 @@
 {% extends 'post/base.html' %}
 {% load staticfiles %}
+<style type="text/css">
+    .form-login {
+      max-width: 330px;
+      padding: 15px;
+      margin: 0 auto;
+    }
+    .form-login .form-control {
+      position: relative;
+      height: auto;
+      -webkit-box-sizing: border-box;
+         -moz-box-sizing: border-box;
+              box-sizing: border-box;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .form-login .form-control:focus {
+      z-index: 2;
+    }
+    .form-login input[type="text"] {
+      margin-bottom: -1px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    .form-login input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+</style>
+
 {% block left %}
     <div>
         <div class="text-center h3">用户登录</div>
-        <form id="loginForm" action="{% url 'user:login' %}" method="POST">
+        <form id="loginForm" class="form-login" action="{% url 'user:login' %}" method="POST">
             {% csrf_token %}
              <div class="form-group">
+                 <span class="add-on"><i class="icon-envelope"></i></span>
                  {{ form.username }}
              </div>
              <div class="form-group">
+                 <span class="add-on"><i class="icon-key"></i></span>
                  {{ form.password }}
              </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Login</button>
             </div>
             <div>
-                还没有账号?<a href="">免费注册</a>
+                还没有账号?<a href="{% url 'user:register' %}">免费注册</a>
             </div>
         </form>
     </div>
@@ -32,7 +64,6 @@
                 if (data['status'] == 'SUCCESS'){
                     window.location='/';
                 } else if (data['status'] == 'ERROR') {
-                    console.log(data['msg']);
                     layer.msg(data['msg'][0]);
                 }
             }
