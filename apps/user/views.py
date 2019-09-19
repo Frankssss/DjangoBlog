@@ -1,30 +1,28 @@
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.db.models import Q
 from django.contrib.auth import login, logout
 from django.contrib.auth.hashers import check_password
-from django.contrib.auth.forms import AuthenticationForm
 
-from .forms import MyUserCreationForm
+from .forms import MyUserCreationForm, MyAuthenticationForm
 from .models import MyUser
 
 
 def loginView(request):
-    form = AuthenticationForm()
+    form = MyAuthenticationForm()
     if request.method == 'POST':
-        form = AuthenticationForm(request.POST)
+        form = MyAuthenticationForm(request, request.POST)
         data = {}
         if form.is_valid():
             username = form.cleaned_data.get('username', '')
             password = form.cleaned_data.get('password', '')
             if MyUser.objects.filter(Q(mobile=username)| Q(username=username)):
                 user = MyUser.objects.filter(Q(mobile=username) | Q(username=username)).first()
-                if check_password(password, user.password):
-                    login(request, user)
-                    return redirect('/')
-                else:
-                    data['status'] = 'ERROR'
-                    data['msg'] = '密码错误'
+                login(request, user)
+                ata['status'] = 'SUCCESS'
+        else:
+            data['status'] = 'ERROR'
+            data['msg'] = list(form.errors.values())[0]
         return JsonResponse(data)
     return render(request, 'user/login.html', locals())
 

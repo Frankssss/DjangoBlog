@@ -1,6 +1,6 @@
 __author__ = 'Frank Shen'
 
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import MyUser
 from django import forms
 
@@ -29,3 +29,14 @@ class MyUserCreationForm(UserCreationForm):
                 'placeholder': '用户名'
             })
         }
+
+
+class MyAuthenticationForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(MyAuthenticationForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget = forms.PasswordInput(attrs={
+            'class': 'form-control', 'placeholder': '用户名'
+        })
+        self.fields['password'].widget = forms.PasswordInput(attrs={
+            'class': 'form-control', 'placeholder': '密码，4-16位数字/字母/特殊符号（空格除外）'
+        })
