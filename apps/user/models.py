@@ -24,4 +24,5 @@ class ConfirmString(models.Model):
     class Meta:
         ordering = ["-c_time"]
         verbose_name = "确认码"
-        verbose_name_plural = "确认码"
+        verbose_name_plural = verbose_name
+

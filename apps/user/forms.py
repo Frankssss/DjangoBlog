@@ -3,6 +3,7 @@ __author__ = 'Frank Shen'
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import MyUser
 from django import forms
+from django.db.models import Q
 
 
 class MyUserCreationForm(UserCreationForm):
@@ -39,3 +40,13 @@ class MyAuthenticationForm(AuthenticationForm):
         self.fields['password'].widget = forms.PasswordInput(attrs={
             'class': 'form-control', 'placeholder': '密码，4-16位数字/字母/特殊符号（空格除外）'
         })
+
+    def clean(self):
+        try:
+            user = MyUser.objects.filter(Q(username=self.cleaned_data['username']) | Q(email=self.cleaned_data['username'])).first()
+        except:
+            raise forms.ValidationError('用户不存在')
+        if not user.confirmed:
+            raise forms.ValidationError('用户未确认, 请先确认邮件')
+        return super(MyAuthenticationForm, self).clean()
+

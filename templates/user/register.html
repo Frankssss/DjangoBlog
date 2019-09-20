@@ -3,7 +3,7 @@
 {% block left %}
     <div>
         <div class="text-center h3">用户注册</div>
-        <form id="registerForm" action="{% url 'user:login' %}" method="POST">
+        <form id="registerForm" class="form-login" action="{% url 'user:login' %}" method="POST">
             {% csrf_token %}
              <div class="form-group">
                  {{ form.username }}
